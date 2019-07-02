@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fas.search.manage.mapper.ZsEntityArchivesMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsEntityArchives" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
+    <result column="archives_id" property="archives_id" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="thesort" property="thesort" jdbcType="INTEGER" />
+    <result column="enable" property="enable" jdbcType="VARCHAR" />
+    <result column="show_source" property="show_source" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, entity_id, archives_id, creator, create_time, thesort, enable, show_source
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from zs_entity_archives
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from zs_entity_archives
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsEntityArchives" >
+    insert into zs_entity_archives (id, entity_id, archives_id, 
+      creator, create_time, thesort, 
+      enable, show_source)
+    values (#{id,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, #{archives_id,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{thesort,jdbcType=INTEGER}, 
+      #{enable,jdbcType=VARCHAR}, #{show_source,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsEntityArchives" >
+    insert into zs_entity_archives
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="archives_id != null" >
+        archives_id,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="thesort != null" >
+        thesort,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="show_source != null" >
+        show_source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="archives_id != null" >
+        #{archives_id,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thesort != null" >
+        #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=VARCHAR},
+      </if>
+      <if test="show_source != null" >
+        #{show_source,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsEntityArchives" >
+    update zs_entity_archives
+    <set >
+      <if test="entity_id != null" >
+        entity_id = #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="archives_id != null" >
+        archives_id = #{archives_id,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thesort != null" >
+        thesort = #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=VARCHAR},
+      </if>
+      <if test="show_source != null" >
+        show_source = #{show_source,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsEntityArchives" >
+    update zs_entity_archives
+    set entity_id = #{entity_id,jdbcType=VARCHAR},
+      archives_id = #{archives_id,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      thesort = #{thesort,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=VARCHAR},
+      show_source = #{show_source,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

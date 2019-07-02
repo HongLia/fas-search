@@ -1,0 +1,134 @@
+/* 框架样式-自定义 */
+body{
+    font-family: "Microsoft YaHei"!important;
+}
+.row {/*行间距*/
+    margin:0;
+}
+.portlet.box>.portlet-title {
+    color: #666;
+    font-weight: bold;
+}
+.form-horizontal .control-label{
+    padding-top: 3px!important;
+}
+.align-label .required{
+    position: absolute;
+    top:0;
+    right:0;
+}
+.form-group{
+    clear: both;
+}
+.form .form-body, .portlet-form .form-body {
+    padding: 0;
+}
+.form-group .col-md-3,.form-group .col-md-4,.form-group .col-md-6{
+    padding-right: 0px;
+}
+.form-horizontal .form-group,.form-group {
+    margin: 0px 0px 5px 0px;
+    min-height: 30px;
+}
+.form-control,textarea {
+    border-radius: 5px!important;
+}
+label.control-label{
+    text-align:left;
+    padding:0;
+}
+.form-actions{
+    margin:15px 0;
+}
+.input-icon.right>i.icon-magnifier {
+    right: 0px;
+    float: right;
+    height: 100%;
+    margin:0;
+    padding: 10px 30px 0 8px;
+    cursor: pointer;
+}
+textarea{/*禁止缩放*/
+    resize: none;
+}
+.form-md-radios>label{
+    color:#34495e;
+}l .required, .form-group .required {
+ color: red;
+}
+ .input-group{
+     padding:0 15px!important;
+ }
+.input-group-btn button{
+    height:30px;
+    padding: 4px 12px!important;
+    border-top-right-radius: 5px!important;
+    border-bottom-right-radius: 5px!important;
+}
+select.form-control,select.form-control option{
+    height:30px;
+    line-height: 30px;
+    padding: 1px 12px 2px 12px;
+    text-align: left;
+}
+
+/*验证报错*/
+.has-error .form-control {
+    border-color: red;
+}
+.has-error .form-control:focus{
+    border-color: red;
+}
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+    color: red;
+}
+
+/* 完全自定义 */
+.padding0{
+    padding:0;
+}
+.paddingLeft0{
+    padding-left:0!important;
+}
+.paddingRight0{
+    padding-right: 0!important;
+}
+.height30,.align-label{
+    height: 30px;
+    line-height: 30px;
+}
+.form-group input,.height30{
+    height:30px;
+    
+}
+.borderRadiusRight0{
+    border-top-right-radius: 0px!important;
+    border-bottom-right-radius: 0px!important;
+}
+.borderRight0{
+    border-right: 0px;
+}
+.bord{/*给所有按钮添加圆角*/
+    border-radius: 5px!important;
+}
+.cursor{
+    cursor: pointer;
+}
+.reset-btn{
+    padding:0 8px;
+    line-height: 30px;
+}
+.ellipsis{/*超出文字以...代替*/
+    display: inline-block;
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+    white-space: nowrap;/*强制不换行*/
+    width: 84%;/*不允许出现半汉字截断*/
+}
+@media (min-width: 768px){
+    .form-horizontal .control-label {
+        padding-top: 0px;
+        text-align: left;
+    }
+}
+

@@ -1,0 +1,169 @@
+*{
+    margin: 0;padding: 0;
+}
+li{
+    list-style: none;
+}
+.zsk_xqy body,html{
+    background: #f5f6fa;
+}
+.zsk_xqy header{
+    width: 100%;
+    height: 73px;
+    line-height: 73px;
+    background: #252c4b;
+}
+.zsk_xqy header .bt img{
+    /*width: 100%;*/
+}
+.zsk_xqy header .special{
+    color:white;
+    font-weight: bold;
+}
+.zsk_xqy header .special .favorite{
+    padding-left: 20px;
+}
+.zsk_xqy header .nav ul {
+    width: 100%;
+    padding: 0px 15px;
+}
+.zsk_xqy header .nav ul li{
+    list-style: none;
+    float: left;
+    color: #adc9ff;
+    padding: 0px 7px;
+}
+.zsk_xqy header .nav ul li:hover{
+    background: #2f375b;
+}
+.zsk_xqy header .nav .dropdown .dropdown-toggle{
+    color: #adc9ff;
+}
+.zsk_xqy header .nav .dropdown ul{
+    padding: 0px;
+}
+.zsk_xqy header .nav .dropdown ul li{
+    width: 100%;
+    padding: 0px !important;
+    color: #000000 !important;
+}
+.zsk_xqy header .nav .dropdown ul li:hover{
+    background: #eef3fd;
+}
+.zsk_xqy .content{
+    width: 80%;
+    margin: 60px auto;
+}
+.zsk_xqy .content .video{
+    box-shadow: 0px 0px 5px #cccccc;
+    padding: 0px !important;
+}
+.zsk_xqy .content .video h4{
+    font-size: 14px;
+    color: #333333;
+    background: #f8f9fd;
+    padding: 0px 20px;
+    height: 56px;
+    line-height: 56px;
+    margin: 0px !important;
+}
+.zsk_xqy .content .video .Collection{
+    float: right;
+    cursor: pointer;
+}
+.zsk_xqy .content .video .Collection img{
+    vertical-align: middle;
+}
+.zsk_xqy .content .video .row{
+    background: white;
+    margin: 0px !important;
+}
+.zsk_xqy .content .video .row h3{
+    text-align: center;
+    padding-top: 60px;
+}
+.zsk_xqy .content .video .row .video_information{
+    width: 75%;
+    margin: 0 auto;
+}
+.zsk_xqy .content .video .row .video_information p{
+    color: #999999;
+}
+.zsk_xqy .content .video .row .video_information p span{
+    float: right;
+}
+.zsk_xqy .content .video .row .video_information .transmit{
+    width: 400px;
+    height: 250px;
+    border: 1px solid red;
+    margin: 0 auto;
+}
+.zsk_xqy .content .video .row .video_information .recommend{
+     padding-top: 20px;
+    padding-bottom: 20px;
+    color: #333333;
+    text-indent: 25px;
+    line-height: 25px;
+    width: 100%;
+}
+.zsk_xqy .content .correlation .recommend{
+    box-shadow: 0px 0px 5px #cccccc;
+}
+.zsk_xqy .content .correlation .recommend h3{
+    font-size: 18px;
+    color: #333333;
+    background: #f8f9fd;
+    padding: 0px 20px;
+    height: 56px;
+    line-height: 56px;
+    font-weight: bold;
+    margin: 0px !important;
+}
+.zsk_xqy .content .correlation .recommend h3 b{
+    color:#3b76f4;
+    padding-right: 5px;
+}
+.zsk_xqy .content .correlation .recommend .recommendations{
+    background: white;
+    padding: 20px;
+}
+.zsk_xqy .content .correlation .recommend .recommendations li{
+    line-height: 25px;
+}
+.zsk_xqy .content .correlation .rests{
+    box-shadow: 0px 0px 5px #cccccc;
+    margin-top: 40px;
+}
+.zsk_xqy .content .correlation .rests h3{
+    font-size: 18px;
+    color: #333333;
+    background: #f8f9fd;
+    padding: 0px 20px;
+    height: 56px;
+    line-height: 56px;
+    font-weight: bold;
+    margin: 0px !important;
+}
+.zsk_xqy .content .correlation .rests h3 b{
+    color:#3b76f4;
+    padding-right: 5px;
+}
+.zsk_xqy .content .correlation .rests .Other{
+    background: white;
+    padding: 20px;
+}
+.zsk_xqy .content .correlation .rests .Other li{
+    line-height: 25px;
+}
+.ellipsises{/*超出文字以...代替*/
+    display: inline-block;
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+    white-space: nowrap;/*强制不换行*/
+    width: 80%;/*不允许出现半汉字截断*/
+}
+
+
+
+
+

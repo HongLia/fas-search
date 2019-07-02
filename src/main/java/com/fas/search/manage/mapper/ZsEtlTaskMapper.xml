@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fas.search.manage.mapper.ZsEtlTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsEtlTask" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="execute_condition" property="execute_condition" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="CHAR" />
+    <result column="query_last_value" property="query_last_value" jdbcType="VARCHAR" />
+    <result column="thesort" property="thesort" jdbcType="INTEGER" />
+    <result column="last_execute_time" property="last_execute_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, entity_id, type, execute_condition, create_time, updator, update_time, 
+    creator, enable, query_last_value, thesort, last_execute_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zs_etl_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zs_etl_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsEtlTask" >
+    insert into zs_etl_task (id, name, entity_id, 
+      type, execute_condition, create_time, 
+      updator, update_time, creator, 
+      enable, query_last_value, thesort, 
+      last_execute_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, 
+      #{type,jdbcType=CHAR}, #{execute_condition,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
+      #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=CHAR}, #{query_last_value,jdbcType=VARCHAR}, #{thesort,jdbcType=INTEGER}, 
+      #{last_execute_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsEtlTask" >
+    insert into zs_etl_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="execute_condition != null" >
+        execute_condition,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
+      <if test="update_time != null" >
+        update_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="query_last_value != null" >
+        query_last_value,
+      </if>
+      <if test="thesort != null" >
+        thesort,
+      </if>
+      <if test="last_execute_time != null" >
+        last_execute_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="execute_condition != null" >
+        #{execute_condition,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=CHAR},
+      </if>
+      <if test="query_last_value != null" >
+        #{query_last_value,jdbcType=VARCHAR},
+      </if>
+      <if test="thesort != null" >
+        #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="last_execute_time != null" >
+        #{last_execute_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsEtlTask" >
+    update zs_etl_task
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        entity_id = #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="execute_condition != null" >
+        execute_condition = #{execute_condition,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=CHAR},
+      </if>
+      <if test="query_last_value != null" >
+        query_last_value = #{query_last_value,jdbcType=VARCHAR},
+      </if>
+      <if test="thesort != null" >
+        thesort = #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="last_execute_time != null" >
+        last_execute_time = #{last_execute_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsEtlTask" >
+    update zs_etl_task
+    set name = #{name,jdbcType=VARCHAR},
+      entity_id = #{entity_id,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      execute_condition = #{execute_condition,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=CHAR},
+      query_last_value = #{query_last_value,jdbcType=VARCHAR},
+      thesort = #{thesort,jdbcType=INTEGER},
+      last_execute_time = #{last_execute_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

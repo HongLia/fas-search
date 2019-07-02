@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fas.search.manage.mapper.ZsUserRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsUserRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="searchkey" property="searchkey" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="search_time" property="search_time" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, subject_id, searchkey, type, search_time, userid, username
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from zs_user_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from zs_user_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
+    insert into zs_user_record (id, subject_id, searchkey, 
+      type, search_time, userid, 
+      username)
+    values (#{id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, #{searchkey,jdbcType=VARCHAR}, 
+      #{type,jdbcType=CHAR}, #{search_time,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
+    insert into zs_user_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="subject_id != null" >
+        subject_id,
+      </if>
+      <if test="searchkey != null" >
+        searchkey,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="search_time != null" >
+        search_time,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="subject_id != null" >
+        #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="searchkey != null" >
+        #{searchkey,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="search_time != null" >
+        #{search_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
+    update zs_user_record
+    <set >
+      <if test="subject_id != null" >
+        subject_id = #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="searchkey != null" >
+        searchkey = #{searchkey,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="search_time != null" >
+        search_time = #{search_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
+    update zs_user_record
+    set subject_id = #{subject_id,jdbcType=VARCHAR},
+      searchkey = #{searchkey,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      search_time = #{search_time,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

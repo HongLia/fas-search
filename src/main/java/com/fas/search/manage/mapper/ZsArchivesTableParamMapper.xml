@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fas.search.manage.mapper.ZsArchivesTableParamMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsArchivesTableParam" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="overview_field" property="overview_field" jdbcType="CHAR" />
+    <result column="showname" property="showname" jdbcType="VARCHAR" />
+    <result column="cname" property="cname" jdbcType="VARCHAR" />
+    <result column="ename" property="ename" jdbcType="VARCHAR" />
+    <result column="detail_field" property="detail_field" jdbcType="CHAR" />
+    <result column="thesort" property="thesort" jdbcType="INTEGER" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="enable" property="enable" jdbcType="CHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsArchivesTableParam" >
+    insert into zs_archives_table_param (id, overview_field, showname, 
+      cname, ename, detail_field, 
+      thesort, subject_id, entity_id, 
+      updator, update_time, enable, 
+      creator, create_time)
+    values (#{id,jdbcType=VARCHAR}, #{overview_field,jdbcType=CHAR}, #{showname,jdbcType=VARCHAR}, 
+      #{cname,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, #{detail_field,jdbcType=CHAR}, 
+      #{thesort,jdbcType=INTEGER}, #{subject_id,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, 
+      #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, #{enable,jdbcType=CHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsArchivesTableParam" >
+    insert into zs_archives_table_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="overview_field != null" >
+        overview_field,
+      </if>
+      <if test="showname != null" >
+        showname,
+      </if>
+      <if test="cname != null" >
+        cname,
+      </if>
+      <if test="ename != null" >
+        ename,
+      </if>
+      <if test="detail_field != null" >
+        detail_field,
+      </if>
+      <if test="thesort != null" >
+        thesort,
+      </if>
+      <if test="subject_id != null" >
+        subject_id,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
+      <if test="update_time != null" >
+        update_time,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="overview_field != null" >
+        #{overview_field,jdbcType=CHAR},
+      </if>
+      <if test="showname != null" >
+        #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="detail_field != null" >
+        #{detail_field,jdbcType=CHAR},
+      </if>
+      <if test="thesort != null" >
+        #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="subject_id != null" >
+        #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

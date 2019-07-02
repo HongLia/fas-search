@@ -1,0 +1,16 @@
+{
+	"sProcessing":	 "正在加载中...",
+	"sLengthMenu":	 "每页 _MENU_ 条记录",
+	"sZeroRecords":	 "没有匹配结果",
+	"sInfo":		 "从 _START_ 到 _END_ /共 _TOTAL_ 条",
+	"sInfoEmpty":	 "没有匹配结果",
+	"sInfoFiltered": "从 _MAX_ 条数据中检索",
+	"sInfoPostFix":	 "",
+	"sSearch":		 "搜索:",
+	"oPaginate": {
+		"sFirst":	 null,
+		"sPrevious": "上一页",
+		"sNext":	 "下一页",
+		"sLast":	 null
+	}
+}

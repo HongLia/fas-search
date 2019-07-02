@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fas.search.manage.mapper.ZsOverviewParamMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsOverviewParam" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="attename" property="attename" jdbcType="VARCHAR" />
+    <result column="diccname" property="diccname" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="thesort" property="thesort" jdbcType="INTEGER" />
+    <result column="dic_id" property="dic_id" jdbcType="VARCHAR" />
+    <result column="overview_id" property="overview_id" jdbcType="VARCHAR" />
+    <result column="entity_field_id" property="entity_field_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, entity_id, subject_id, attename, diccname, creator, create_time, updator, update_time, 
+    thesort, dic_id, overview_id, entity_field_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zs_overview_param
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zs_overview_param
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
+    insert into zs_overview_param (id, entity_id, subject_id, 
+      attename, diccname, creator, 
+      create_time, updator, update_time, 
+      thesort, dic_id, overview_id, 
+      entity_field_id)
+    values (#{id,jdbcType=INTEGER}, #{entity_id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, 
+      #{attename,jdbcType=VARCHAR}, #{diccname,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{create_time,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, 
+      #{thesort,jdbcType=INTEGER}, #{dic_id,jdbcType=VARCHAR}, #{overview_id,jdbcType=VARCHAR}, 
+      #{entity_field_id,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
+    insert into zs_overview_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="subject_id != null" >
+        subject_id,
+      </if>
+      <if test="attename != null" >
+        attename,
+      </if>
+      <if test="diccname != null" >
+        diccname,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
+      <if test="update_time != null" >
+        update_time,
+      </if>
+      <if test="thesort != null" >
+        thesort,
+      </if>
+      <if test="dic_id != null" >
+        dic_id,
+      </if>
+      <if test="overview_id != null" >
+        overview_id,
+      </if>
+      <if test="entity_field_id != null" >
+        entity_field_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="subject_id != null" >
+        #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="attename != null" >
+        #{attename,jdbcType=VARCHAR},
+      </if>
+      <if test="diccname != null" >
+        #{diccname,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thesort != null" >
+        #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="dic_id != null" >
+        #{dic_id,jdbcType=VARCHAR},
+      </if>
+      <if test="overview_id != null" >
+        #{overview_id,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_field_id != null" >
+        #{entity_field_id,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
+    update zs_overview_param
+    <set >
+      <if test="entity_id != null" >
+        entity_id = #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="subject_id != null" >
+        subject_id = #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="attename != null" >
+        attename = #{attename,jdbcType=VARCHAR},
+      </if>
+      <if test="diccname != null" >
+        diccname = #{diccname,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thesort != null" >
+        thesort = #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="dic_id != null" >
+        dic_id = #{dic_id,jdbcType=VARCHAR},
+      </if>
+      <if test="overview_id != null" >
+        overview_id = #{overview_id,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_field_id != null" >
+        entity_field_id = #{entity_field_id,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
+    update zs_overview_param
+    set entity_id = #{entity_id,jdbcType=VARCHAR},
+      subject_id = #{subject_id,jdbcType=VARCHAR},
+      attename = #{attename,jdbcType=VARCHAR},
+      diccname = #{diccname,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      thesort = #{thesort,jdbcType=INTEGER},
+      dic_id = #{dic_id,jdbcType=VARCHAR},
+      overview_id = #{overview_id,jdbcType=VARCHAR},
+      entity_field_id = #{entity_field_id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

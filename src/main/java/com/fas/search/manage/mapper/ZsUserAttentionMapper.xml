@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fas.search.manage.mapper.ZsUserAttentionMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsUserAttention" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
+    <result column="attention_time" property="attention_time" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, subject_id, object_id, entity_id, attention_time, userid, enable
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from zs_user_attention
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from zs_user_attention
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
+    insert into zs_user_attention (id, subject_id, object_id, 
+      entity_id, attention_time, userid, 
+      enable)
+    values (#{id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, #{object_id,jdbcType=VARCHAR}, 
+      #{entity_id,jdbcType=VARCHAR}, #{attention_time,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
+    insert into zs_user_attention
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="subject_id != null" >
+        subject_id,
+      </if>
+      <if test="object_id != null" >
+        object_id,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="attention_time != null" >
+        attention_time,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="subject_id != null" >
+        #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="object_id != null" >
+        #{object_id,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="attention_time != null" >
+        #{attention_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
+    update zs_user_attention
+    <set >
+      <if test="subject_id != null" >
+        subject_id = #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="object_id != null" >
+        object_id = #{object_id,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        entity_id = #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="attention_time != null" >
+        attention_time = #{attention_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
+    update zs_user_attention
+    set subject_id = #{subject_id,jdbcType=VARCHAR},
+      object_id = #{object_id,jdbcType=VARCHAR},
+      entity_id = #{entity_id,jdbcType=VARCHAR},
+      attention_time = #{attention_time,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
