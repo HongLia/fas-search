@@ -35,7 +35,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceM" />
 		<property name="mapperLocations" value="classpath:com/fas/*/mapper/*.xml"></property>
-		<property name="typeAliasesPackage" value="com.fas.search.entity,com.fas.metadata.entity"></property>
+		<property name="typeAliasesPackage" value="com.fas.search.manage.entity"></property>
 		<property name="configurationProperties">
 			<props>
 				<prop key="logImpl">LOG4J</prop>
