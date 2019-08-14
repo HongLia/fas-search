@@ -2,7 +2,7 @@ package com.fas.search.manage.entity;
 
 import java.util.Date;
 
-public class ZsEntityArchives {
+public class ZsArchivesEntity {
     private String id;
 
     private String entity_id;
@@ -18,6 +18,8 @@ public class ZsEntityArchives {
     private String enable;
 
     private String show_source;
+
+    private String updator;
 
     public String getId() {
         return id;
@@ -81,5 +83,13 @@ public class ZsEntityArchives {
 
     public void setShow_source(String show_source) {
         this.show_source = show_source == null ? null : show_source.trim();
+    }
+
+    public String getUpdator() {
+        return updator;
+    }
+
+    public void setUpdator(String updator) {
+        this.updator = updator;
     }
 }

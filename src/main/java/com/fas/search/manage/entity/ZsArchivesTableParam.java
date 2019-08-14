@@ -31,6 +31,10 @@ public class ZsArchivesTableParam {
 
     private Date create_time;
 
+    private String entity_field_id;
+
+    private String archive_entity_id;
+
     public String getId() {
         return id;
     }
@@ -141,5 +145,21 @@ public class ZsArchivesTableParam {
 
     public void setCreate_time(Date create_time) {
         this.create_time = create_time;
+    }
+
+    public String getEntity_field_id() {
+        return entity_field_id;
+    }
+
+    public void setEntity_field_id(String entity_field_id) {
+        this.entity_field_id = entity_field_id == null ? null : entity_field_id.trim();
+    }
+
+    public String getArchive_entity_id() {
+        return archive_entity_id;
+    }
+
+    public void setArchive_entity_id(String archive_entity_id) {
+        this.archive_entity_id = archive_entity_id;
     }
 }

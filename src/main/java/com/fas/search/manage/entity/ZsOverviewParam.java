@@ -3,7 +3,7 @@ package com.fas.search.manage.entity;
 import java.util.Date;
 
 public class ZsOverviewParam {
-    private Integer id;
+    private String id;
 
     private String entity_id;
 
@@ -29,11 +29,15 @@ public class ZsOverviewParam {
 
     private String entity_field_id;
 
-    public Integer getId() {
+    private String search_field;
+
+    private String attcname;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -131,5 +135,21 @@ public class ZsOverviewParam {
 
     public void setEntity_field_id(String entity_field_id) {
         this.entity_field_id = entity_field_id == null ? null : entity_field_id.trim();
+    }
+
+    public String getSearch_field() {
+        return search_field;
+    }
+
+    public void setSearch_field(String search_field) {
+        this.search_field = search_field;
+    }
+
+    public String getAttcname() {
+        return attcname;
+    }
+
+    public void setAttcname(String attcname) {
+        this.attcname = attcname;
     }
 }

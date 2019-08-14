@@ -29,18 +29,6 @@
     delete from zs_subject_dics
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsSubjectDics" >
-    insert into zs_subject_dics (id, cname, ename, 
-      searchpk, remark, create_time, 
-      update_time, enable, subject_id, 
-      updator, creator, thesort
-      )
-    values (#{id,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, 
-      #{searchpk,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{enable,jdbcType=CHAR}, #{subject_id,jdbcType=VARCHAR}, 
-      #{updator,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{thesort,jdbcType=INTEGER}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsSubjectDics" >
     insert into zs_subject_dics
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -159,19 +147,57 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsSubjectDics" >
-    update zs_subject_dics
-    set cname = #{cname,jdbcType=VARCHAR},
-      ename = #{ename,jdbcType=VARCHAR},
-      searchpk = #{searchpk,jdbcType=CHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      enable = #{enable,jdbcType=CHAR},
-      subject_id = #{subject_id,jdbcType=VARCHAR},
-      updator = #{updator,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      thesort = #{thesort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="countCheckExists" resultType="java.util.Map">
+    SELECT
+    <trim suffixOverrides="," >
+      <if test="cname != null">
+        count(
+        CASE
+        WHEN cname = #{cname} THEN
+        1
+        ELSE
+        NULL
+        END
+        ) AS cnameCount,
+      </if>
+      <if test="cname != null">
+        count(
+        CASE
+        WHEN ename = #{ename} THEN
+        1
+        ELSE
+        NULL
+        END
+        ) AS enameCount,
+      </if>
+      <if test="searchpk != null">
+        count(
+        CASE
+        WHEN searchpk = '0' THEN
+        1
+        ELSE
+        NULL
+        END
+        ) AS searchPkCount
+      </if>
+    </trim>
+    FROM
+        zs_subject_dics
+    where
+        subject_id = #{subject_id}
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
+
+  <select id="listBySubjectId" resultType="com.fas.search.manage.entity.ZsSubjectDics">
+    select
+        <include refid="Base_Column_List"></include>
+    from
+        zs_subject_dics
+    where
+        subject_id = #{subjectId}
+  </select>
 </mapper>

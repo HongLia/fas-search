@@ -122,4 +122,11 @@ public class ZsSubject {
     public void setImg(String img) {
         this.img = img == null ? null : img.trim();
     }
+
+    public ZsSubject() {
+    }
+
+    public ZsSubject(String name) {
+        this.name = name;
+    }
 }

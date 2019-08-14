@@ -16,19 +16,9 @@
     <result column="enable" property="enable" jdbcType="CHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="entity_field_id" property="entity_field_id" jdbcType="VARCHAR" />
+    <result column="archive_entity_id" property="archive_entity_id" jdbcType="INTEGER" />
   </resultMap>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsArchivesTableParam" >
-    insert into zs_archives_table_param (id, overview_field, showname, 
-      cname, ename, detail_field, 
-      thesort, subject_id, entity_id, 
-      updator, update_time, enable, 
-      creator, create_time)
-    values (#{id,jdbcType=VARCHAR}, #{overview_field,jdbcType=CHAR}, #{showname,jdbcType=VARCHAR}, 
-      #{cname,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, #{detail_field,jdbcType=CHAR}, 
-      #{thesort,jdbcType=INTEGER}, #{subject_id,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, 
-      #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, #{enable,jdbcType=CHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsArchivesTableParam" >
     insert into zs_archives_table_param
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -74,6 +64,12 @@
       <if test="create_time != null" >
         create_time,
       </if>
+      <if test="entity_field_id != null" >
+        entity_field_id,
+      </if>
+      <if test="archive_entity_id != null" >
+        archive_entity_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,6 +114,104 @@
       <if test="create_time != null" >
         #{create_time,jdbcType=TIMESTAMP},
       </if>
+      <if test="entity_field_id != null" >
+        #{entity_field_id,jdbcType=VARCHAR},
+      </if>
+      <if test="archive_entity_id != null" >
+        #{archive_entity_id,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
+
+  <update id="updateSelective" parameterType="com.fas.search.manage.entity.ZsArchivesTableParam">
+     update zs_archives_table_param
+        <set>
+          <if test="overview_field != null" >
+            overview_field = #{overview_field,jdbcType=CHAR},
+          </if>
+          <if test="showname != null" >
+            showname =  #{showname,jdbcType=VARCHAR},
+          </if>
+          <if test="detail_field != null" >
+            detail_field = #{detail_field,jdbcType=CHAR},
+          </if>
+          <if test="thesort != null" >
+            thesort =  #{thesort,jdbcType=INTEGER},
+          </if>
+          <if test="updator != null" >
+            updator = #{updator,jdbcType=VARCHAR},
+          </if>
+        </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" resultType="com.fas.search.manage.entity.ZsArchivesTableParam">
+    select *
+    from zs_archives_table_param
+    where id = #{id}
+  </select>
+
+  <select id="initTableParam" resultType="java.lang.Integer">
+    INSERT INTO zs_archives_table_param (
+    id,
+    showname,
+    cname,
+    ename,
+    thesort,
+    subject_id,
+    entity_id,
+    updator,
+    creator,
+    entity_field_id,
+    archive_entity_id
+    ) SELECT
+        REPLACE (uuid(), '-', '') AS id,
+        CASE
+        WHEN cname is not NULL THEN
+            cname
+        WHEN ename is not NULL THEN
+            ename
+        END AS showname,
+        cname,
+        ename,
+        @r:=@r+1 as thesort,
+        #{subject_id} as subject_id,
+        #{entity_id} as entity_id,
+        #{updator} as updator ,
+        #{creator} as creator ,
+         id as entity_field_id,
+         #{archive_entity_id} as archive_entity_id
+      FROM
+          zs_entity_field ,(select @r:=0) b
+      WHERE
+          entity_id = #{entity_id}
+  </select>
+
+
+  <select id="listTableField" resultType="java.util.Map">
+    select *
+    from zs_archives_table_param
+    where archive_entity_id = #{archive_entity_id}
+  </select>
+
+
+  <update id="swapSortValue" >
+      UPDATE zs_archives_table_param
+      SET thesort = CASE
+      WHEN thesort = #{sort1} THEN
+          #{sort0}
+      ELSE
+          #{sort1}
+      END
+      WHERE
+          thesort IN (#{sort0}, #{sort1})
+          and archive_entity_id = #{archiveEntityId}
+  </update>
+
+
+  <select id="selectMaxSortValue" resultType="java.lang.Integer">
+    select max(thesort)
+    from zs_archives_table_param
+    where archive_entity_id = #{archiveEntityId}
+  </select>
 </mapper>

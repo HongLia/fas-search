@@ -29,18 +29,6 @@
     delete from zs_infobar_param
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsInfobarParam" >
-    insert into zs_infobar_param (id, ename, cname, 
-      showname, overview_field, detail_field, 
-      thesort, infobar_entity_id, create_time, 
-      update_time, creator, updator
-      )
-    values (#{id,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, 
-      #{showname,jdbcType=VARCHAR}, #{overview_field,jdbcType=CHAR}, #{detail_field,jdbcType=CHAR}, 
-      #{thesort,jdbcType=INTEGER}, #{infobar_entity_id,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsInfobarParam" >
     insert into zs_infobar_param
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -159,19 +147,67 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsInfobarParam" >
-    update zs_infobar_param
-    set ename = #{ename,jdbcType=VARCHAR},
-      cname = #{cname,jdbcType=VARCHAR},
-      showname = #{showname,jdbcType=VARCHAR},
-      overview_field = #{overview_field,jdbcType=CHAR},
-      detail_field = #{detail_field,jdbcType=CHAR},
-      thesort = #{thesort,jdbcType=INTEGER},
-      infobar_entity_id = #{infobar_entity_id,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
-      updator = #{updator,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+
+  <insert id="initParam" >
+    INSERT INTO zs_infobar_param (
+      id,
+      ename,
+      cname,
+      infobar_entity_id,
+      creator,
+      updator,
+      entity_field_id,
+      thesort
+    ) SELECT
+      REPLACE (uuid(), '-', '') AS id,
+      ename,
+      cname,
+      #{infobarParam.infobar_entity_id} as infobar_entity_id ,
+      #{infobarParam.creator} as creator,
+      #{infobarParam.updator} as updator,
+      id AS entity_field_id,
+      @r:=@r+1 as thesort
+    FROM
+      zs_entity_field ,(select @r:=0) b
+    WHERE
+      entity_id = #{entityId}
+  </insert>
+
+  <select id="listByArchive" resultType="com.fas.search.manage.entity.ZsInfobarParam">
+   SELECT
+        c.id ,
+        c.ename,
+        c.cname,
+        b.showname,
+        b.overview_field,
+        b.detail_field,
+        b.thesort AS field_thesort,
+        b.infobar_entity_id
+    FROM
+        zs_infobar_param b
+    LEFT JOIN zs_entity_field c ON b.entity_field_id = c.id
+    WHERE
+         b.infobar_entity_id = #{archiveId}
+    ORDER BY
+        b.thesort
+  </select>
+
+  <update id="swapSortValue" >
+      UPDATE zs_infobar_param
+      SET thesort = CASE
+      WHEN thesort = #{sort1} THEN
+          #{sort0}
+      ELSE
+          #{sort1}
+      END
+      WHERE
+          thesort IN (#{sort0}, #{sort1})
+          and infobar_entity_id = #{archiveId}
   </update>
+
+  <select id="selectMaxSortValue" resultType="java.lang.Integer">
+    select max(thesort)
+    from zs_infobar_param
+    where infobar_entity_id = #{archiveId}
+  </select>
 </mapper>

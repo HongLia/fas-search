@@ -41,6 +41,8 @@ public class ZsEntity {
 
     private String query_last_value;
 
+    private String tablename;
+
     public String getId() {
         return id;
     }
@@ -191,5 +193,13 @@ public class ZsEntity {
 
     public void setQuery_last_value(String query_last_value) {
         this.query_last_value = query_last_value == null ? null : query_last_value.trim();
+    }
+
+    public String getTablename() {
+        return tablename;
+    }
+
+    public void setTablename(String tablename) {
+        this.tablename = tablename;
     }
 }

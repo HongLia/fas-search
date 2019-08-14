@@ -29,18 +29,6 @@
     delete from zs_subject
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsSubject" >
-    insert into zs_subject (id, name, enable, 
-      creator, create_time, remark, 
-      offline_time, update_time, updator, 
-      thesort, online_time, img
-      )
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{enable,jdbcType=CHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{offline_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, 
-      #{thesort,jdbcType=INTEGER}, #{online_time,jdbcType=TIMESTAMP}, #{img,jdbcType=VARCHAR}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsSubject" >
     insert into zs_subject
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -159,19 +147,104 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsSubject" >
-    update zs_subject
-    set name = #{name,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=CHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR},
-      offline_time = #{offline_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      updator = #{updator,jdbcType=VARCHAR},
-      thesort = #{thesort,jdbcType=INTEGER},
-      online_time = #{online_time,jdbcType=TIMESTAMP},
-      img = #{img,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="selectBySelective" resultType="com.fas.search.manage.entity.ZsSubject">
+    select
+        <include refid="Base_Column_List"></include>
+    from
+        zs_subject
+    where
+        enable != 1
+    <if test="subject.name != null" >
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="subject.enable != null" >
+      and enable = #{enable,jdbcType=CHAR}
+    </if>
+    <if test="subject.creator != null" >
+      and creator = #{creator,jdbcType=VARCHAR}
+    </if>
+    <if test="subject.create_time != null" >
+      and create_time = #{create_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="subject.remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="subject.offline_time != null" >
+      and offline_time = #{offline_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="subject.update_time != null" >
+      and update_time = #{update_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="subject.updator != null" >
+      and updator = #{updator,jdbcType=VARCHAR}
+    </if>
+    <if test="subject.thesort != null" >
+      and thesort = #{thesort,jdbcType=INTEGER}
+    </if>
+    <if test="subject.online_time != null" >
+      and online_time = #{online_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="subject.img != null" >
+      and img = #{img,jdbcType=VARCHAR}
+    </if>
+    order by update_time
+    <if test="page != null">
+      limit #{page.start} , #{page.length}
+    </if>
+  </select>
+  <select id="countBySelective" resultType="java.lang.Integer">
+    select
+        count(*)
+    from
+        zs_subject
+    where
+        enable != 1
+    <if test="name != null" >
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="enable != null" >
+      and enable = #{enable,jdbcType=CHAR}
+    </if>
+    <if test="creator != null" >
+      and creator = #{creator,jdbcType=VARCHAR}
+    </if>
+    <if test="create_time != null" >
+      and create_time = #{create_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="offline_time != null" >
+      and offline_time = #{offline_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="update_time != null" >
+      and update_time = #{update_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updator != null" >
+      and updator = #{updator,jdbcType=VARCHAR}
+    </if>
+    <if test="thesort != null" >
+      and thesort = #{thesort,jdbcType=INTEGER}
+    </if>
+    <if test="online_time != null" >
+      and online_time = #{online_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="img != null" >
+      and img = #{img,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="checkUpdateNameRepeat" resultType="java.lang.Integer">
+    select
+        count(*)
+    from
+        zs_subject
+    where
+        enable != 1
+    and
+        id != #{id}
+    and
+        name = #{name}
+  </select>
 </mapper>

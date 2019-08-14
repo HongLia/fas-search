@@ -18,20 +18,12 @@
     select 
     <include refid="Base_Column_List" />
     from zs_overview
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from zs_overview
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsOverview" >
-    insert into zs_overview (id, entity_id, subject_id, 
-      creator, create_time, updator, 
-      update_time, thesort)
-    values (#{id,jdbcType=INTEGER}, #{entity_id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{thesort,jdbcType=INTEGER})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsOverview" >
     insert into zs_overview
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -62,7 +54,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="entity_id != null" >
         #{entity_id,jdbcType=VARCHAR},
@@ -87,7 +79,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsOverview" >
+   <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsOverview" >
     update zs_overview
     <set >
       <if test="entity_id != null" >
@@ -111,18 +103,104 @@
       <if test="thesort != null" >
         thesort = #{thesort,jdbcType=INTEGER},
       </if>
+      <if test="enable != null" >
+        thesort = #{enable,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsOverview" >
-    update zs_overview
-    set entity_id = #{entity_id,jdbcType=VARCHAR},
-      subject_id = #{subject_id,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      updator = #{updator,jdbcType=VARCHAR},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      thesort = #{thesort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+  <select id="listByConditionAndPage" resultType="java.util.Map">
+        select
+            *
+        from
+      (SELECT
+      a.id,
+      b.entity_name,
+      b.scount,
+      b.execute_time,
+      a.entity_id,
+      CASE
+      WHEN c.config > 0 THEN
+      1
+      ELSE
+      0
+      END AS config
+      FROM
+      zs_overview a
+      INNER JOIN zs_entity b ON a.entity_id = b.id
+      LEFT JOIN (
+      SELECT
+      b.overview_id,
+      count(b.overview_id) AS config
+      FROM
+      zs_overview_param b
+      WHERE
+      b.search_field = '0'
+      OR b.dic_id IS NOT NULL
+      GROUP BY
+      b.overview_id
+      ) c ON a.id = c.overview_id
+      WHERE
+      a. ENABLE = '0'
+      and
+      a.subject_id = #{overview.subject_id}) a
+      where 1 =1
+    <if test="overview.entity_name != null">
+        and entity_name  like concat('%',#{overview.entity_name},'%')
+    </if>
+    <if test="overview.config != null">
+        and config = #{overview.config}
+    </if>
+    <if test="page != null" >
+        limit #{page.start} , #{page.length}
+    </if>
+  </select>
+
+    <select id="countByCondition" resultType="java.lang.Integer">
+        select count(*) from (
+        SELECT
+        a.id,
+        b.entity_name,
+        b.scount,
+        b.execute_time,
+        a.entity_id,
+        CASE
+        WHEN c.config > 0 THEN
+        1
+        ELSE
+        0
+        END AS config
+        FROM
+        zs_overview a
+        INNER JOIN zs_entity b ON a.entity_id = b.id
+        LEFT JOIN (
+        SELECT
+        b.overview_id,
+        CASE
+        WHEN count(b.overview_id) > 0 THEN
+        1
+        ELSE
+        0
+        END AS config
+        FROM
+        zs_overview_param b
+        WHERE
+        b.search_field = '0'
+        OR b.dic_id IS NOT NULL
+        GROUP BY
+        b.overview_id
+        ) c ON a.id = c.overview_id
+        WHERE
+        a.enable = '0' and
+        a.subject_id = #{subject_id}
+
+        ) a where 1=1
+        <if test="entity_name != null">
+            and entity_name  like concat('%',#{entity_name},'%')
+        </if>
+        <if test="config != null">
+            and config = #{config}
+        </if>
+    </select>
 </mapper>

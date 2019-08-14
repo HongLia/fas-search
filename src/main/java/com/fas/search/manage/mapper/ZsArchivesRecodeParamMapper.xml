@@ -12,13 +12,15 @@
     <result column="enable" property="enable" jdbcType="CHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
+    <result column="archive_entity_id" property="archive_entity_id" jdbcType="VARCHAR" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, showContent, entity_id, archives_id, create_time, updator, update_time, enable, 
-    creator, thesort
+    id, showContent, entity_id, archives_id, create_time, updator, update_time, enable,
+    creator, thesort, archive_entity_id, subject_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from zs_archives_recode_param
     where id = #{id,jdbcType=VARCHAR}
@@ -27,16 +29,6 @@
     delete from zs_archives_recode_param
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsArchivesRecodeParam" >
-    insert into zs_archives_recode_param (id, showContent, entity_id, 
-      archives_id, create_time, updator, 
-      update_time, enable, creator, 
-      thesort)
-    values (#{id,jdbcType=VARCHAR}, #{showContent,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, 
-      #{archives_id,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{enable,jdbcType=CHAR}, #{creator,jdbcType=VARCHAR}, 
-      #{thesort,jdbcType=INTEGER})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsArchivesRecodeParam" >
     insert into zs_archives_recode_param
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -70,6 +62,12 @@
       <if test="thesort != null" >
         thesort,
       </if>
+      <if test="archive_entity_id != null" >
+        archive_entity_id,
+      </if>
+      <if test="subject_id != null" >
+        subject_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +99,12 @@
       </if>
       <if test="thesort != null" >
         #{thesort,jdbcType=INTEGER},
+      </if>
+      <if test="archive_entity_id != null" >
+        #{archive_entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="subject_id != null" >
+        #{subject_id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,20 +138,13 @@
       <if test="thesort != null" >
         thesort = #{thesort,jdbcType=INTEGER},
       </if>
+      <if test="archive_entity_id != null" >
+        archive_entity_id = #{archive_entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="subject_id != null" >
+        subject_id = #{subject_id,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsArchivesRecodeParam" >
-    update zs_archives_recode_param
-    set showContent = #{showContent,jdbcType=VARCHAR},
-      entity_id = #{entity_id,jdbcType=VARCHAR},
-      archives_id = #{archives_id,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      updator = #{updator,jdbcType=VARCHAR},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      enable = #{enable,jdbcType=CHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      thesort = #{thesort,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -23,6 +23,10 @@ public class ZsArchivesRecodeParam {
 
     private Integer thesort;
 
+    private String archive_entity_id;
+
+    private String subject_id;
+
     public String getId() {
         return id;
     }
@@ -101,5 +105,21 @@ public class ZsArchivesRecodeParam {
 
     public void setThesort(Integer thesort) {
         this.thesort = thesort;
+    }
+
+    public String getArchive_entity_id() {
+        return archive_entity_id;
+    }
+
+    public void setArchive_entity_id(String archive_entity_id) {
+        this.archive_entity_id = archive_entity_id == null ? null : archive_entity_id.trim();
+    }
+
+    public String getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(String subject_id) {
+        this.subject_id = subject_id == null ? null : subject_id.trim();
     }
 }

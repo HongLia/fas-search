@@ -15,6 +15,25 @@
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
     <result column="infobar_id" property="infobar_id" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BaseResultMapDTO" type="com.fas.search.manage.entity.ZsInfobarEntityDTO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="CHAR" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
+    <result column="infobar_id" property="infobar_id" jdbcType="VARCHAR" />
+    <collection property="params" ofType="com.fas.search.manage.entity.ZsInfobarParam">
+      <id column="field_id" property="id" jdbcType="VARCHAR" />
+      <result column="ename" property="ename" jdbcType="VARCHAR" />
+      <result column="cname" property="cname" jdbcType="VARCHAR" />
+      <result column="showname" property="showname" jdbcType="VARCHAR" />
+      <result column="overview_field" property="overview_field" jdbcType="CHAR" />
+      <result column="detail_field" property="detail_field" jdbcType="CHAR" />
+      <result column="field_thesort" property="thesort" jdbcType="INTEGER" />
+      <result column="infobar_entity_id" property="infobar_entity_id" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, name, remark, creator, create_time, update_time, enable, subject_id, entity_id, 
     updator, thesort, infobar_id
@@ -29,18 +48,6 @@
     delete from zs_infobar_entity
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsInfobarEntity" >
-    insert into zs_infobar_entity (id, name, remark, 
-      creator, create_time, update_time, 
-      enable, subject_id, entity_id, 
-      updator, thesort, infobar_id
-      )
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{enable,jdbcType=CHAR}, #{subject_id,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, 
-      #{updator,jdbcType=VARCHAR}, #{thesort,jdbcType=INTEGER}, #{infobar_id,jdbcType=VARCHAR}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsInfobarEntity" >
     insert into zs_infobar_entity
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -159,19 +166,40 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsInfobarEntity" >
-    update zs_infobar_entity
-    set name = #{name,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      enable = #{enable,jdbcType=CHAR},
-      subject_id = #{subject_id,jdbcType=VARCHAR},
-      entity_id = #{entity_id,jdbcType=VARCHAR},
-      updator = #{updator,jdbcType=VARCHAR},
-      thesort = #{thesort,jdbcType=INTEGER},
-      infobar_id = #{infobar_id,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="listArchiveInfo" resultMap="BaseResultMapDTO">
+    SELECT
+        a.*,
+        c.id AS field_id ,
+        c.ename,
+        c.cname,
+        b.showname,
+        b.overview_field,
+        b.detail_field,
+        b.thesort as field_thesort
+    FROM
+        zs_infobar_entity a
+    LEFT JOIN zs_infobar_param b ON a.id = b.infobar_entity_id
+    LEFT JOIN zs_entity_field c ON b.entity_field_id = c.id
+    where a.enable = 0 and  a.infobar_id  = #{infobarId}
+    order by a.create_time , b.thesort
+  </select>
+
+  <select id="checkNum" resultType="java.lang.Integer">
+    select count(*)
+    from zs_infobar_entity
+    where
+        enable = 0
+    and
+        infobar_id = #{infobar_id}
+    and
+        name = #{name}
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
+
+
+  
 </mapper>

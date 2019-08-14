@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fas.search.manage.mapper.ZsOverviewParamMapper" >
   <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsOverviewParam" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
     <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
     <result column="attename" property="attename" jdbcType="VARCHAR" />
@@ -15,10 +15,12 @@
     <result column="dic_id" property="dic_id" jdbcType="VARCHAR" />
     <result column="overview_id" property="overview_id" jdbcType="VARCHAR" />
     <result column="entity_field_id" property="entity_field_id" jdbcType="VARCHAR" />
+    <result column="search_field" property="search_field" jdbcType="VARCHAR" />
+    <result column="attcname" property="attcname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, entity_id, subject_id, attename, diccname, creator, create_time, updator, update_time, 
-    thesort, dic_id, overview_id, entity_field_id
+    thesort, dic_id, overview_id, entity_field_id,search_field,attcname
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,18 +32,6 @@
     delete from zs_overview_param
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
-    insert into zs_overview_param (id, entity_id, subject_id, 
-      attename, diccname, creator, 
-      create_time, updator, update_time, 
-      thesort, dic_id, overview_id, 
-      entity_field_id)
-    values (#{id,jdbcType=INTEGER}, #{entity_id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, 
-      #{attename,jdbcType=VARCHAR}, #{diccname,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
-      #{create_time,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{thesort,jdbcType=INTEGER}, #{dic_id,jdbcType=VARCHAR}, #{overview_id,jdbcType=VARCHAR}, 
-      #{entity_field_id,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
     insert into zs_overview_param
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -84,10 +74,16 @@
       <if test="entity_field_id != null" >
         entity_field_id,
       </if>
+      <if test="search_field != null" >
+        search_field,
+      </if>
+      <if test="attcname != null" >
+        attcname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="entity_id != null" >
         #{entity_id,jdbcType=VARCHAR},
@@ -124,6 +120,12 @@
       </if>
       <if test="entity_field_id != null" >
         #{entity_field_id,jdbcType=VARCHAR},
+      </if>
+      <if test="search_field != null" >
+        #{search_field,jdbcType=VARCHAR},
+      </if>
+      <if test="attcname != null" >
+        #{attcname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,8 +168,14 @@
       <if test="entity_field_id != null" >
         entity_field_id = #{entity_field_id,jdbcType=VARCHAR},
       </if>
+      <if test="search_field != null" >
+        search_field = #{search_field,jdbcType=VARCHAR},
+      </if>
+      <if test="attcname != null" >
+        attcname = #{attcname,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
     update zs_overview_param
@@ -182,7 +190,44 @@
       thesort = #{thesort,jdbcType=INTEGER},
       dic_id = #{dic_id,jdbcType=VARCHAR},
       overview_id = #{overview_id,jdbcType=VARCHAR},
-      entity_field_id = #{entity_field_id,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      entity_field_id = #{entity_field_id,jdbcType=VARCHAR},
+      search_field = #{search_field,jdbcType=VARCHAR},
+      attcname = #{attcname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <insert id="initParam" parameterType="com.fas.search.manage.entity.ZsOverviewParam" >
+    insert INTO zs_overview_param (id,entity_id,subject_id,attename,creator,updator,overview_id,entity_field_id)
+    select
+        replace(uuid(),'-','') as id,
+        #{entity_id} as entity_id,
+        #{subject_id} as subject_id,
+        ename as attename,
+        #{creator} as creator ,
+        #{updator} as updator ,
+        #{overview_id} as overview_id,
+        id
+    from zs_entity_field
+    WHERE
+		entity_id = #{entity_id}
+  </insert>
+
+  <select id="listParamsByOverviewId" resultType="java.util.Map" >
+    SELECT
+      a.id,
+      b.ename AS entity_field_ename,
+      b.cname AS entity_field_cname,
+      c.ename AS dic_ename,
+      c.cname AS dic_cname,
+      c.searchpk,
+      a.dic_id,
+      a.entity_field_id,
+      a.search_field
+    FROM
+        zs_overview_param a
+    INNER JOIN zs_entity_field b ON a.entity_field_id = b.id
+    LEFT JOIN zs_subject_dics c ON a.dic_id = c.id
+    WHERE
+        a.overview_id = #{overview_id}
+  </select>
 </mapper>

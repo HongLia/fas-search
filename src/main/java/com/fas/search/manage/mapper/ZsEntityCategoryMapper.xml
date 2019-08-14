@@ -23,7 +23,7 @@
     from zs_entity_category
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from zs_entity_category
     where id = #{id,jdbcType=VARCHAR}
   </delete>
@@ -52,9 +52,6 @@
       <if test="remark != null" >
         remark,
       </if>
-      <if test="create_time != null" >
-        create_time,
-      </if>
       <if test="creator != null" >
         creator,
       </if>
@@ -63,9 +60,6 @@
       </if>
       <if test="updator != null" >
         updator,
-      </if>
-      <if test="update_time != null" >
-        update_time,
       </if>
       <if test="thesort != null" >
         thesort,
@@ -83,9 +77,6 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null" >
-        #{create_time,jdbcType=TIMESTAMP},
       </if>
       <if test="creator != null" >
         #{creator,jdbcType=VARCHAR},
@@ -128,9 +119,6 @@
       <if test="updator != null" >
         updator = #{updator,jdbcType=VARCHAR},
       </if>
-      <if test="update_time != null" >
-        update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
       <if test="thesort != null" >
         thesort = #{thesort,jdbcType=INTEGER},
       </if>
@@ -150,4 +138,55 @@
       thesort = #{thesort,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectCategoryTree" resultType="java.util.Map">
+    SELECT
+        id,
+        name,
+        parend_id pid,
+        '0' type
+    FROM
+        zs_entity_category
+    WHERE
+        `enable` = '0'
+    UNION
+        SELECT
+            id,
+            entity_name name,
+            category_id pid,
+            '1' type
+        FROM
+            zs_entity
+        WHERE
+            ENABLE = '0'
+  </select>
+
+  <select id="selectBySelective" resultType="com.fas.search.manage.entity.ZsEntityCategory" >
+    select
+        <include refid="Base_Column_List"></include>
+    from
+        zs_entity_category
+    where
+        enable = '0'
+    <if test="name != null" >
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="parend_id != null" >
+      and parend_id = #{parend_id,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="create_time != null" >
+      and create_time = #{create_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="creator != null" >
+      and creator = #{creator,jdbcType=VARCHAR}
+    </if>
+    <if test="updator != null" >
+      and updator = #{updator,jdbcType=VARCHAR}
+    </if>
+    <if test="thesort != null" >
+      and thesort = #{thesort,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

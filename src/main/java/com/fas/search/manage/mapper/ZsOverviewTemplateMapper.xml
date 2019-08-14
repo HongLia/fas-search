@@ -28,16 +28,6 @@
     delete from zs_overview_template
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsOverviewTemplate" >
-    insert into zs_overview_template (id, dicename, diccname, 
-      template_type, subject_id, updator, 
-      update_time, creator, create_time, 
-      thesort, dic_id)
-    values (#{id,jdbcType=VARCHAR}, #{dicename,jdbcType=VARCHAR}, #{diccname,jdbcType=VARCHAR}, 
-      #{template_type,jdbcType=CHAR}, #{subject_id,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{thesort,jdbcType=INTEGER}, #{dic_id,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsOverviewTemplate" >
     insert into zs_overview_template
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -147,18 +137,45 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsOverviewTemplate" >
-    update zs_overview_template
-    set dicename = #{dicename,jdbcType=VARCHAR},
-      diccname = #{diccname,jdbcType=VARCHAR},
-      template_type = #{template_type,jdbcType=CHAR},
-      subject_id = #{subject_id,jdbcType=VARCHAR},
-      updator = #{updator,jdbcType=VARCHAR},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      thesort = #{thesort,jdbcType=INTEGER},
-      dic_id = #{dic_id,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+
+  <select id="listTemplate" resultType="java.util.Map">
+     SELECT
+        a.id,
+        c.ename AS dic_ename,
+        c.cname AS dic_cname,
+        a.dic_id,
+		d.entity_count,
+        b.field_count,
+        a.template_type
+    FROM
+        zs_overview_template a
+    LEFT JOIN (
+        SELECT
+            count(dic_id) AS field_count,
+            dic_id
+        FROM
+            zs_overview_param
+        WHERE
+            subject_id = #{subject_id}
+        AND dic_id IS NOT NULL
+        GROUP BY
+            dic_id
+    ) b ON a.dic_id = b.dic_id
+		left JOIN (
+		    SELECT
+                count(dic_id) AS entity_count,
+                dic_id
+            FROM
+                zs_overview_param
+            WHERE
+                subject_id = #{subject_id}
+            AND dic_id IS NOT NULL
+            GROUP BY
+                dic_id,entity_id
+		) d on a.dic_id = d.dic_id
+    LEFT JOIN zs_subject_dics c ON a.dic_id = c.id
+    WHERE
+        a.subject_id = #{subject_id}
+  </select>
 </mapper>

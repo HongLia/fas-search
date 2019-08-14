@@ -27,16 +27,6 @@
     delete from zs_infobar
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsInfobar" >
-    insert into zs_infobar (id, name, remark, 
-      creator, create_time, update_time, 
-      enable, subject_id, updator, 
-      thesort)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{enable,jdbcType=CHAR}, #{subject_id,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, 
-      #{thesort,jdbcType=INTEGER})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsInfobar" >
     insert into zs_infobar
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -137,17 +127,62 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsInfobar" >
-    update zs_infobar
-    set name = #{name,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      enable = #{enable,jdbcType=CHAR},
-      subject_id = #{subject_id,jdbcType=VARCHAR},
-      updator = #{updator,jdbcType=VARCHAR},
-      thesort = #{thesort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="listBySubjectId" resultType="com.fas.search.manage.entity.ZsInfobar">
+    select
+        <include refid="Base_Column_List"></include>
+    from
+        zs_infobar
+    where
+    enable = '0' and
+     subject_id = #{subjectId}
+
+  </select>
+
+  <select id="countBySelective" resultType="java.lang.Integer">
+    select count(*)
+    from zs_infobar
+    where enable = 0
+      <if test="id != null" >
+        and  #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+       and  #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null" >
+        and #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="creator != null" >
+        and #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="create_time != null" >
+        and #{create_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="update_time != null" >
+        and #{update_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="enable != null" >
+        and #{enable,jdbcType=CHAR}
+      </if>
+      <if test="subject_id != null" >
+        and #{subject_id,jdbcType=VARCHAR}
+      </if>
+      <if test="updator != null" >
+        and #{updator,jdbcType=VARCHAR}
+      </if>
+      <if test="thesort != null" >
+        and #{thesort,jdbcType=INTEGER}
+      </if>
+  </select>
+
+  <select id="checkUpdateNameRepeat" resultType="java.lang.Integer">
+    select count(*)
+    from zs_infobar
+    where
+    enable = 0
+    and
+    name = #{name}
+    and
+    id != #{id}
+  </select>
 </mapper>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fas.search.manage.mapper.ZaArchivesMapper" >
-  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZaArchives" >
+<mapper namespace="com.fas.search.manage.mapper.ZsArchivesMapper" >
+  <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsArchives" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="CHAR" />
@@ -28,17 +28,7 @@
     delete from zs_archives
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZaArchives" >
-    insert into zs_archives (id, name, type, 
-      creator, create_time, enable, 
-      subject_id, updator, update_time, 
-      thesort, remark)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{enable,jdbcType=CHAR}, 
-      #{subject_id,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{thesort,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZaArchives" >
+  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsArchives" >
     insert into zs_archives
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -111,7 +101,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZaArchives" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsArchives" >
     update zs_archives
     <set >
       <if test="name != null" >
@@ -147,18 +137,22 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZaArchives" >
-    update zs_archives
-    set name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=CHAR},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      enable = #{enable,jdbcType=CHAR},
-      subject_id = #{subject_id,jdbcType=VARCHAR},
-      updator = #{updator,jdbcType=VARCHAR},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      thesort = #{thesort,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="countNameNumber" resultType="java.lang.Integer">
+    select count(*)
+    from zs_archives
+    where name = #{name}
+    and enable = 0
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
+  <select id="listArchives" resultType="com.fas.search.manage.entity.ZsArchives">
+    select <include refid="Base_Column_List"></include>
+    from zs_archives
+    where subject_id = #{subjectId}
+    and enable = 0
+  </select>
+
 </mapper>

@@ -1,29 +1,34 @@
 package com.fas.search.manage.entity;
 
 import java.util.Date;
+import java.util.List;
 
-public class ZaArchives {
+public class ZsInfobarEntityDTO {
     private String id;
 
     private String name;
 
-    private String type;
+    private String remark;
 
     private String creator;
 
     private Date create_time;
 
+    private Date update_time;
+
     private String enable;
 
     private String subject_id;
 
-    private String updator;
+    private String entity_id;
 
-    private Date update_time;
+    private String updator;
 
     private Integer thesort;
 
-    private String remark;
+    private String infobar_id;
+
+    private List<ZsInfobarParam> params;
 
     public String getId() {
         return id;
@@ -41,12 +46,12 @@ public class ZaArchives {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getType() {
-        return type;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public String getCreator() {
@@ -65,6 +70,14 @@ public class ZaArchives {
         this.create_time = create_time;
     }
 
+    public Date getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
+    }
+
     public String getEnable() {
         return enable;
     }
@@ -81,20 +94,20 @@ public class ZaArchives {
         this.subject_id = subject_id == null ? null : subject_id.trim();
     }
 
+    public String getEntity_id() {
+        return entity_id;
+    }
+
+    public void setEntity_id(String entity_id) {
+        this.entity_id = entity_id == null ? null : entity_id.trim();
+    }
+
     public String getUpdator() {
         return updator;
     }
 
     public void setUpdator(String updator) {
         this.updator = updator == null ? null : updator.trim();
-    }
-
-    public Date getUpdate_time() {
-        return update_time;
-    }
-
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
     }
 
     public Integer getThesort() {
@@ -105,11 +118,19 @@ public class ZaArchives {
         this.thesort = thesort;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getInfobar_id() {
+        return infobar_id;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setInfobar_id(String infobar_id) {
+        this.infobar_id = infobar_id == null ? null : infobar_id.trim();
+    }
+
+    public List<ZsInfobarParam> getParams() {
+        return params;
+    }
+
+    public void setParams(List<ZsInfobarParam> params) {
+        this.params = params;
     }
 }

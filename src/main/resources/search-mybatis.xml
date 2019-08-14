@@ -16,7 +16,7 @@
                         http://mybatis.org/schema/mybatis-spring-1.3.xsd
                         ">
 
-	<bean id="dataSourceM" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="dataSourceSearch" class="com.alibaba.druid.pool.DruidDataSource"
 		  init-method="init" destroy-method="close" >
 		<property name="driverClassName" value="${search.mysql.db.driver}" />
 		<property name="url" value="${search.mysql.db.url}" />
@@ -32,9 +32,9 @@
 		<property name="validationQuery" value="select 'X'" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSourceM" />
-		<property name="mapperLocations" value="classpath:com/fas/*/mapper/*.xml"></property>
+	<bean id="sqlSessionFactorySearch" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceSearch" />
+		<property name="mapperLocations" value="classpath:com/fas/search/*/mapper/*.xml"></property>
 		<property name="typeAliasesPackage" value="com.fas.search.manage.entity"></property>
 		<property name="configurationProperties">
 			<props>
@@ -44,13 +44,13 @@
 		<property name="configLocation" value="classpath:search-mybatis-config.xml"></property>
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.fas.*.mapper" />
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+		<property name="basePackage" value="com.fas.search.*.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactorySearch"/>
 	</bean>
-	<bean id="transactionManagerM" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSourceM"/>
+	<bean id="transactionManagerSearch" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceSearch"/>
 	</bean>
-	<tx:advice id="transactionAdvice" transaction-manager="transactionManagerM">
+	<tx:advice id="transactionAdviceSearch" transaction-manager="transactionManagerSearch">
 		<tx:attributes>
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="add*" propagation="REQUIRED"/>
@@ -60,9 +60,9 @@
 			<tx:method name="remove*" propagation="REQUIRED"/>
 		</tx:attributes>
 	</tx:advice>
-	<tx:annotation-driven transaction-manager="transactionManagerM"/>
+	<tx:annotation-driven transaction-manager="transactionManagerSearch"/>
 	<aop:config>
-		<aop:pointcut id="transactionPointcut" expression="execution(* com.fas.*.service.*(..))"/>
-		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice"/>
+		<aop:pointcut id="transactionPointcutSearch" expression="execution(* com.fas.*.service.*(..))"/>
+		<aop:advisor pointcut-ref="transactionPointcutSearch" advice-ref="transactionAdviceSearch"/>
 	</aop:config>
 </beans>

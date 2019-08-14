@@ -102,4 +102,32 @@ public class ZsEntityCategory {
     public void setThesort(Integer thesort) {
         this.thesort = thesort;
     }
+
+    public ZsEntityCategory() {
+        System.out.println();
+    }
+
+
+    public ZsEntityCategory(String id, String creator, String enable, Date update_time) {
+        this.id = id;
+        this.creator = creator;
+        this.enable = enable;
+        this.update_time = update_time;
+    }
+
+    @Override
+    public String toString() {
+        return "ZsEntityCategory{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", parend_id='" + parend_id + '\'' +
+                ", remark='" + remark + '\'' +
+                ", create_time=" + create_time +
+                ", creator='" + creator + '\'' +
+                ", enable='" + enable + '\'' +
+                ", updator='" + updator + '\'' +
+                ", update_time=" + update_time +
+                ", thesort=" + thesort +
+                '}';
+    }
 }

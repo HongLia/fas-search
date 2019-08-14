@@ -19,18 +19,6 @@
     from zs_user_record
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from zs_user_record
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
-    insert into zs_user_record (id, subject_id, searchkey, 
-      type, search_time, userid, 
-      username)
-    values (#{id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, #{searchkey,jdbcType=VARCHAR}, 
-      #{type,jdbcType=CHAR}, #{search_time,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
     insert into zs_user_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -80,38 +68,121 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
-    update zs_user_record
-    <set >
-      <if test="subject_id != null" >
-        subject_id = #{subject_id,jdbcType=VARCHAR},
-      </if>
-      <if test="searchkey != null" >
-        searchkey = #{searchkey,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=CHAR},
-      </if>
-      <if test="search_time != null" >
-        search_time = #{search_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="userid != null" >
-        userid = #{userid,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null" >
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsUserRecord" >
-    update zs_user_record
-    set subject_id = #{subject_id,jdbcType=VARCHAR},
-      searchkey = #{searchkey,jdbcType=VARCHAR},
-      type = #{type,jdbcType=CHAR},
-      search_time = #{search_time,jdbcType=TIMESTAMP},
-      userid = #{userid,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+
+  <select id="getUserCensus" resultType="java.util.Map" >
+    SELECT
+        CASE
+    WHEN TO_DAYS(search_time) = TO_DAYS(now())
+    AND tmp.type = '2' THEN
+        count(userid)
+    END AS record,
+     CASE
+    WHEN TO_DAYS(search_time) = TO_DAYS(now())
+    AND tmp.type = '1' THEN
+        count(userid)
+    END AS search,
+     uv.uv,
+     allNum.allNum
+    FROM
+        zs_user_record tmp,
+        (
+
+            select count(*) as uv
+            from (
+            SELECT
+                *
+            FROM
+                zs_user_record
+            WHERE
+                TO_DAYS(search_time) = TO_DAYS(now())
+            GROUP BY
+                userid) testCount
+
+        ) uv,
+        (
+            SELECT
+                count(*) AS allNum
+            FROM
+                zs_user_record
+        ) allNum
+  </select>
+
+    <select id="listUse" resultType="java.util.Map" >
+        SELECT
+            username,
+            searchKey,
+            CASE
+        WHEN type = '1' THEN
+            '概览'
+        WHEN type = '2' THEN
+            '档案'
+        WHEN type = '3' THEN
+            '信息栏'
+        END AS type,
+         b. NAME AS subject_name,
+         search_time
+        FROM
+            zs_user_record a
+        LEFT JOIN zs_subject b ON a.subject_id = b.id
+        <where>
+            <if test="userName != null">
+                username = #{userName}
+            </if>
+        </where>
+        ORDER BY
+            search_time DESC
+        <if test="page != null">
+            limit #{page.start} , #{page.length}
+        </if>
+    </select>
+
+    <select id="countUse" resultType="java.lang.Integer">
+        select count(*)
+        from zs_user_record
+        <where>
+            <if test="userName != null">
+                username = #{userName}
+            </if>
+        </where>
+    </select>
+
+    <select id="listUser" resultType="java.util.Map">
+        SELECT
+            CASE
+        WHEN type = '1' THEN
+            count(type)
+        END AS search_count,
+         CASE
+        WHEN type = '2' THEN
+            count(*)
+        END AS record_count,
+         userid,
+         MAX(search_time) AS new_time,
+         max(username) AS username
+        FROM
+            zs_user_record
+        <where>
+            <if test="userName != null">
+                username = #{userName}
+            </if>
+        </where>
+        GROUP BY
+            userid
+        <if test="page != null">
+            limit #{page.start} , #{page.length}
+        </if>
+    </select>
+
+    <select id="countUser" resultType="java.lang.Integer" >
+        SELECT
+            count(DISTINCT userid)
+        FROM
+            zs_user_record
+        <where>
+            <if test="userName != null">
+                username = #{userName}
+            </if>
+        </where>
+    </select>
 </mapper>

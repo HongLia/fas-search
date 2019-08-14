@@ -17,11 +17,11 @@
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, ename, cname, tableename, fieldename, entity_id, create_time, updator, update_time, 
+    id, ename, cname, tableename, fieldename, entity_id, create_time, updator, update_time,
     creator, enable, field_type, thesort
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from zs_entity_field
     where id = #{id,jdbcType=VARCHAR}
@@ -30,19 +30,9 @@
     delete from zs_entity_field
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsEntityField" >
-    insert into zs_entity_field (id, ename, cname, 
-      tableename, fieldename, entity_id, 
-      create_time, updator, update_time, 
-      creator, enable, field_type, 
-      thesort)
-    values (#{id,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, 
-      #{tableename,jdbcType=VARCHAR}, #{fieldename,jdbcType=VARCHAR}, #{entity_id,jdbcType=VARCHAR}, 
-      #{create_time,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{creator,jdbcType=VARCHAR}, #{enable,jdbcType=CHAR}, #{field_type,jdbcType=VARCHAR}, 
-      #{thesort,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsEntityField" >
+
+
+  <insert id="insertSelective"  >
     insert into zs_entity_field
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -63,14 +53,8 @@
       <if test="entity_id != null" >
         entity_id,
       </if>
-      <if test="create_time != null" >
-        create_time,
-      </if>
       <if test="updator != null" >
         updator,
-      </if>
-      <if test="update_time != null" >
-        update_time,
       </if>
       <if test="creator != null" >
         creator,
@@ -104,14 +88,8 @@
       <if test="entity_id != null" >
         #{entity_id,jdbcType=VARCHAR},
       </if>
-      <if test="create_time != null" >
-        #{create_time,jdbcType=TIMESTAMP},
-      </if>
       <if test="updator != null" >
         #{updator,jdbcType=VARCHAR},
-      </if>
-      <if test="update_time != null" >
-        #{update_time,jdbcType=TIMESTAMP},
       </if>
       <if test="creator != null" >
         #{creator,jdbcType=VARCHAR},
@@ -127,6 +105,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsEntityField" >
     update zs_entity_field
     <set >
@@ -169,20 +148,109 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsEntityField" >
-    update zs_entity_field
-    set ename = #{ename,jdbcType=VARCHAR},
-      cname = #{cname,jdbcType=VARCHAR},
-      tableename = #{tableename,jdbcType=VARCHAR},
-      fieldename = #{fieldename,jdbcType=VARCHAR},
-      entity_id = #{entity_id,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      updator = #{updator,jdbcType=VARCHAR},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=CHAR},
-      field_type = #{field_type,jdbcType=VARCHAR},
-      thesort = #{thesort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="selectByEntityId" resultType="com.fas.search.manage.entity.ZsEntityField">
+    select <include refid="Base_Column_List"></include>
+    from zs_entity_field
+    where entity_id = #{entityId}
+  </select>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+
+    <foreach  collection="list" item="item" separator=";" index="index">
+      insert into zs_entity_field (id, ename, cname,
+      tableename, fieldename, entity_id,
+      updator,
+      creator,  field_type,
+      thesort)
+      values
+        (
+          #{item.id,jdbcType=VARCHAR},
+          #{item.ename,jdbcType=VARCHAR},
+          #{item.cname,jdbcType=VARCHAR},
+          #{item.tableename,jdbcType=VARCHAR},
+          #{item.fieldename,jdbcType=VARCHAR},
+          #{item.entity_id,jdbcType=VARCHAR},
+          #{item.updator,jdbcType=VARCHAR},
+          #{item.creator,jdbcType=VARCHAR},
+          #{item.field_type,jdbcType=VARCHAR},
+          #{item.thesort,jdbcType=INTEGER}
+        )
+    </foreach>
+  </insert>
+
+
+  <insert id="insertSelectiveByMap"  >
+    insert into zs_entity_field
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ename != null" >
+        ename,
+      </if>
+      <if test="cname != null" >
+        cname,
+      </if>
+      <if test="tableename != null" >
+        tableename,
+      </if>
+      <if test="fieldename != null" >
+        fieldename,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="field_type != null" >
+        field_type,
+      </if>
+      <if test="thesort != null" >
+        thesort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="tableename != null" >
+        #{tableename,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldename != null" >
+        #{fieldename,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=CHAR},
+      </if>
+      <if test="field_type != null" >
+        #{field_type,jdbcType=VARCHAR},
+      </if>
+      <if test="thesort != null" >
+        #{thesort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
 </mapper>

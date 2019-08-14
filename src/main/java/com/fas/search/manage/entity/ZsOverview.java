@@ -1,9 +1,10 @@
 package com.fas.search.manage.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ZsOverview {
-    private Integer id;
+public class ZsOverview implements Serializable {
+    private String id;
 
     private String entity_id;
 
@@ -19,11 +20,17 @@ public class ZsOverview {
 
     private Integer thesort;
 
-    public Integer getId() {
+    private String config;
+
+    private String entity_name;
+
+    private String enable;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -82,4 +89,29 @@ public class ZsOverview {
     public void setThesort(Integer thesort) {
         this.thesort = thesort;
     }
+
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
+    public String getEntity_name() {
+        return entity_name;
+    }
+
+    public void setEntity_name(String entity_name) {
+        this.entity_name = entity_name;
+    }
+
+    public String getEnable() {
+        return enable;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
+    }
+
 }

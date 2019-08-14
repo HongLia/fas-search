@@ -44,14 +44,14 @@
       increment_field, privilege_level, filter_sql, 
       scount, execute_time, collection_name, 
       updator, update_time, create_time, 
-      query_last_value)
+      query_last_value,tablename)
     values (#{id,jdbcType=VARCHAR}, #{entity_name,jdbcType=VARCHAR}, #{category_id,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{enable,jdbcType=VARCHAR}, 
       #{execute_sql,jdbcType=VARCHAR}, #{datasource_id,jdbcType=VARCHAR}, #{metadata_id,jdbcType=VARCHAR}, 
       #{increment_field,jdbcType=VARCHAR}, #{privilege_level,jdbcType=CHAR}, #{filter_sql,jdbcType=VARCHAR}, 
       #{scount,jdbcType=BIGINT}, #{execute_time,jdbcType=TIMESTAMP}, #{collection_name,jdbcType=VARCHAR}, 
       #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{query_last_value,jdbcType=VARCHAR})
+      #{query_last_value,jdbcType=VARCHAR},#{tablename})
   </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsEntity" >
     insert into zs_entity
@@ -113,6 +113,9 @@
       <if test="query_last_value != null" >
         query_last_value,
       </if>
+      <if test="tablename != null" >
+        tablename ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -172,6 +175,9 @@
       <if test="query_last_value != null" >
         #{query_last_value,jdbcType=VARCHAR},
       </if>
+      <if test="tablename != null" >
+        #{tablename,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.fas.search.manage.entity.ZsEntity" >
@@ -222,14 +228,14 @@
       <if test="updator != null" >
         updator = #{updator,jdbcType=VARCHAR},
       </if>
-      <if test="update_time != null" >
-        update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
       <if test="create_time != null" >
         create_time = #{create_time,jdbcType=TIMESTAMP},
       </if>
       <if test="query_last_value != null" >
         query_last_value = #{query_last_value,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null" >
+        tablename = #{tablename,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -253,7 +259,51 @@
       updator = #{updator,jdbcType=VARCHAR},
       update_time = #{update_time,jdbcType=TIMESTAMP},
       create_time = #{create_time,jdbcType=TIMESTAMP},
-      query_last_value = #{query_last_value,jdbcType=VARCHAR}
+      query_last_value = #{query_last_value,jdbcType=VARCHAR},
+      tablename = #{tablename,jdbcType=VARCHAR},
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="quote" resultType="java.util.Map">
+
+      SELECT
+          subject_id,
+          b.name subject_name,
+          '' archives_name,
+          '概览' archives_class
+      FROM
+          zs_overview a
+      LEFT JOIN zs_subject b ON a.subject_id = b.id
+      WHERE
+          a.entity_id = #{id}
+          and a.enable = '0'
+
+      UNION
+
+      select
+          a.subject_id,
+          c.name subject_name,
+          b.name archives_name,
+          '信息栏' archives_class
+      FROM
+          zs_infobar_entity a LEFT JOIN zs_infobar b on a.infobar_id = b.id
+          LEFT JOIN zs_subject c on a.subject_id = b.id
+      WHERE
+          a.entity_id = #{id}
+          and a.enable = '0'
+
+      UNION
+
+          SELECT
+              b.subject_id,
+              c.name subject_name,
+              b.name archives_name,
+           '档案' archives_class
+      FROM
+          zs_archives_entity a LEFT JOIN zs_archives b on a.archives_id = b.id
+          LEFT JOIN zs_subject c on b.subject_id = b.id
+      where
+              a.entity_id = #{id}
+          and a.enable = '0'
+  </select>
 </mapper>
