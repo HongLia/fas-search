@@ -1,6 +1,7 @@
 package com.fas.search.manage.mapper;
 
 import com.fas.search.manage.entity.ZsArchivesTableParam;
+import com.fas.search.manage.entity.ZsEntityField;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -45,4 +46,6 @@ public interface ZsArchivesTableParamMapper {
      * @return
      */
     Integer selectMaxSortValue(String archiveEntityId);
+
+
 }

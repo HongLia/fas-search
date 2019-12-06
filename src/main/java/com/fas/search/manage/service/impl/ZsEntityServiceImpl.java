@@ -6,13 +6,20 @@ import com.fas.search.manage.entity.ZsEntity;
 import com.fas.search.manage.mapper.ZsEntityFieldMapper;
 import com.fas.search.manage.mapper.ZsEntityMapper;
 import com.fas.search.manage.service.ZsEntityService;
-import com.fas.search.manage.util.common.BeanEntityTransformUtil;
-import com.fas.search.manage.util.common.CreateDataUtil;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.search.bo.EngineInfoBO;
+import com.fas.search.search.common.pool.es.EsConfigureUtil;
+import com.fas.search.search.engine.SearchEngineService;
+import com.fas.search.search.engine.impl.SearchEngineElasticsearchServiceImpl;
+import com.fas.search.search.exception.CreateCollectionException;
+import com.fas.search.util.common.BeanEntityTransformUtil;
+import com.fas.search.util.common.CreateDataUtil;
+import com.fas.search.util.user.UserVOUtil;
+import org.elasticsearch.client.transport.TransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +37,9 @@ public class ZsEntityServiceImpl implements ZsEntityService {
     @Autowired
     private ZsEntityFieldMapper zsEntityFieldMapper;
 
+    @Autowired
+    private SearchEngineService searchEngineService;
+
 
     @Override
     public int removeById(String id) {
@@ -44,10 +54,20 @@ public class ZsEntityServiceImpl implements ZsEntityService {
 
     @Override
     public int save(ZsEntity record) {
+        //初始化创建人信息
         BeanEntityTransformUtil.initCreateEntity(record);
-        //todo 以后需要在搜索引擎中添加Collection
+        //设置集合名称
+        if (StringUtils.isEmpty(record.getCollection_name())){
+            record.setCollection_name(record.getTablename() + "_"+ record.getId());
+        }
         int i = zsEntityMapper.insertSelective(record);
+        //同步实体字段
         initEntityField(record);
+        //创建 搜索引擎 collection
+        int collectoin = searchEngineService.createCollectoin(record.getCollection_name());
+        if (collectoin > 0){
+            throw new CreateCollectionException("创建Collection异常！");
+        }
         return i;
     }
 

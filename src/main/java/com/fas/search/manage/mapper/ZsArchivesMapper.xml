@@ -14,6 +14,24 @@
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="archiveResultMap" type="com.fas.search.manage.entity.ZsArchivesDTO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="enable" property="enable" jdbcType="CHAR" />
+    <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="thesort" property="thesort" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <collection property="fields" ofType="com.fas.search.manage.entity.ZsArchivesTableParam">
+      <result column="ename" property="ename" jdbcType="VARCHAR" />
+      <result column="showname" property="showname" jdbcType="VARCHAR" />
+      <result column="field_thesort" property="thesort" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, name, type, creator, create_time, enable, subject_id, updator, update_time, thesort, 
     remark
@@ -155,4 +173,25 @@
     and enable = 0
   </select>
 
+  <select id="listDetailArchives" resultMap="archiveResultMap">
+    SELECT
+        a.id ,
+        a.name,
+        a.remark,
+        a.type,
+        a.thesort,
+        c.ename,
+        c.showname,
+        c.thesort as field_thesort
+    FROM
+        zs_archives a LEFT JOIN zs_archives_entity b
+    on a.id = b.archives_id LEFT JOIN zs_archives_table_param c
+    on b.id = c.archive_entity_id and c.overview_field = '0'
+
+    WHERE
+        a.ENABLE = 0
+    AND a.subject_id = #{subjectId}
+    order by a.thesort
+
+  </select>
 </mapper>

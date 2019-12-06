@@ -9,13 +9,15 @@ public class ZsUserAttention {
 
     private String object_id;
 
-    private String entity_id;
-
     private Date attention_time;
 
     private String userid;
 
     private String enable;
+
+    private String data_id;
+
+    private String entity_id;
 
     public String getId() {
         return id;
@@ -41,14 +43,6 @@ public class ZsUserAttention {
         this.object_id = object_id == null ? null : object_id.trim();
     }
 
-    public String getEntity_id() {
-        return entity_id;
-    }
-
-    public void setEntity_id(String entity_id) {
-        this.entity_id = entity_id == null ? null : entity_id.trim();
-    }
-
     public Date getAttention_time() {
         return attention_time;
     }
@@ -71,5 +65,21 @@ public class ZsUserAttention {
 
     public void setEnable(String enable) {
         this.enable = enable == null ? null : enable.trim();
+    }
+
+    public String getData_id() {
+        return data_id;
+    }
+
+    public void setData_id(String data_id) {
+        this.data_id = data_id;
+    }
+
+    public String getEntity_id() {
+        return entity_id;
+    }
+
+    public void setEntity_id(String entity_id) {
+        this.entity_id = entity_id;
     }
 }

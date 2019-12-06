@@ -23,10 +23,10 @@ public interface ZsUserRecordMapper {
 
     /**
      * 获取系统使用情况
-     * @param userName
+     * @param record
      * @return
      */
-    List<Map<String,Object>> listUse(@Param("userName") String userName, @Param("page")Page page);
+    List<Map<String,Object>> listUse(@Param("record") ZsUserRecord record, @Param("page")Page page);
 
     /**
      * 统计使用情况总数
@@ -52,28 +52,18 @@ public interface ZsUserRecordMapper {
     Integer countUser(@Param("userName") String userName);
 
 
+    /**
+     * 获取用户最近搜索的五条记录
+     * @param userid
+     * @return
+     */
+    List<String> latelyRecord(String userid);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 按条件统计查询
+     * @param zsUserRecord
+     * @return
+     */
+    Long countSelected(ZsUserRecord zsUserRecord);
 }

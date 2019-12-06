@@ -8,14 +8,13 @@ import com.fas.search.manage.exception.SortValueException;
 import com.fas.search.manage.mapper.ZsInfobarEntityMapper;
 import com.fas.search.manage.mapper.ZsInfobarParamMapper;
 import com.fas.search.manage.service.ZsInfobarEntityService;
-import com.fas.search.manage.util.common.BeanEntityTransformUtil;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.common.BeanEntityTransformUtil;
+import com.fas.search.util.user.UserVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -87,7 +86,7 @@ public class ZsInfobarEntityServiceImpl implements ZsInfobarEntityService {
 
     @Override
     public List<ZsInfobarEntityDTO> listArchiveInfo(String infobarId) {
-        return zsInfobarEntityMapper.listArchiveInfo(infobarId);
+        return zsInfobarEntityMapper.listArchiveInfo(infobarId,null);
     }
 
     @Override
@@ -125,5 +124,10 @@ public class ZsInfobarEntityServiceImpl implements ZsInfobarEntityService {
         }
         //交换排序
         return zsInfobarParamMapper.swapSortValue(thesort, swapValue, zsInfobarParam.getInfobar_entity_id());
+    }
+
+    @Override
+    public List<ZsInfobarEntityDTO> listInfobarEntitys(String infobarId) {
+        return zsInfobarEntityMapper.listArchiveInfo(infobarId,"0");
     }
 }

@@ -1,6 +1,7 @@
 package com.fas.search.manage.mapper;
 
 import com.fas.search.manage.entity.ZsOverviewParam;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -30,4 +31,5 @@ public interface ZsOverviewParamMapper {
      * @return
      */
     List<Map<String,Object>> listParamsByOverviewId(String overview_id);
+
 }

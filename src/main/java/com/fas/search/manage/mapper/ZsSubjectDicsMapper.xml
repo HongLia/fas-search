@@ -15,6 +15,7 @@
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, cname, ename, searchpk, remark, create_time, update_time, enable, subject_id, 
     updator, creator, thesort
@@ -199,5 +200,51 @@
         zs_subject_dics
     where
         subject_id = #{subjectId}
+  </select>
+
+  <select id="selectBySelective" resultType="com.fas.search.manage.entity.ZsSubjectDics">
+    select *
+    from zs_subject_dics
+    where enable = 0
+        <if test="cname != null" >
+          AND cname = #{cname,jdbcType=VARCHAR}
+        </if>
+        <if test="ename != null" >
+          AND ename = #{ename,jdbcType=VARCHAR}
+        </if>
+        <if test="searchpk != null" >
+          AND searchpk = #{searchpk,jdbcType=CHAR}
+        </if>
+        <if test="remark != null" >
+          AND remark = #{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="subject_id != null" >
+          AND subject_id = #{subject_id,jdbcType=VARCHAR}
+        </if>
+    order by thesort
+    limit 1
+  </select>
+
+  <select id="selectSubjectDataHeader" resultType="java.util.HashMap">
+    SELECT
+        a.dic_id,b.cname
+    FROM
+        zs_overview_template a
+    LEFT JOIN zs_subject_dics b ON a.dic_id = b.id
+    WHERE
+        a.subject_id = #{subjectId}
+        and enable=0
+    ORDER BY a.template_type,a.thesort
+  </select>
+
+  <select id="selectSubjectEntityHeader" resultType="java.util.HashMap">
+    SELECT
+        dic_id,attename
+    FROM
+    zs_overview_param
+    where
+        subject_id = #{subjectId}
+        and entity_id = #{entityId}
+        and dic_id is not null
   </select>
 </mapper>

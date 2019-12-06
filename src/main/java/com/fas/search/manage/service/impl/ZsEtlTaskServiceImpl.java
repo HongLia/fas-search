@@ -1,12 +1,11 @@
 package com.fas.search.manage.service.impl;
 
 import com.fas.base.model.Page;
-import com.fas.base.shiro.UserVO;
 import com.fas.search.manage.entity.ZsEtlTask;
 import com.fas.search.manage.mapper.ZsEtlTaskMapper;
 import com.fas.search.manage.service.ZsEtlTaskService;
-import com.fas.search.manage.util.common.BeanEntityTransformUtil;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.common.BeanEntityTransformUtil;
+import com.fas.search.util.user.UserVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

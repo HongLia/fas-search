@@ -21,11 +21,12 @@
     <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
     <result column="query_last_value" property="query_last_value" jdbcType="VARCHAR" />
+    <result column="tablename" property="tablename" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, entity_name, category_id, remark, creator, enable, execute_sql, datasource_id, 
     metadata_id, increment_field, privilege_level, filter_sql, scount, execute_time, 
-    collection_name, updator, update_time, create_time, query_last_value
+    collection_name, updator, update_time, create_time, query_last_value, tablename
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -305,5 +306,16 @@
       where
               a.entity_id = #{id}
           and a.enable = '0'
+  </select>
+
+  <!-- 连接查询 概览表，找到主题对应的实体后去实体表查询相关的实体 -->
+  <select id="listSubjectEntity" resultType="com.fas.search.manage.entity.ZsEntity">
+    SELECT
+        a.*
+    FROM
+        zs_entity a
+    inner JOIN zs_overview b ON a.id = b.entity_id
+    WHERE
+        b.subject_id = #{subjectId}
   </select>
 </mapper>

@@ -9,7 +9,7 @@ import com.fas.search.manage.entity.ZsInfobarEntityDTO;
 import com.fas.search.manage.entity.ZsInfobarParam;
 import com.fas.search.manage.service.ZsInfobarEntityService;
 import com.fas.search.manage.service.ZsInfobarService;
-import com.fas.search.manage.util.view.ReturnDataUtil;
+import com.fas.search.util.view.ReturnDataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,7 +85,7 @@ public class ZsInfobarController {
         //查询
         List<ZsInfobar> zsInfobars = zsInfobarService.listBySubjectId(subject_id);
         //返回
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",zsInfobars);
+        return ReturnDataUtil.getData(zsInfobars);
     }
 
     /**
@@ -121,7 +121,7 @@ public class ZsInfobarController {
     @SystemControllerLog(description = "列表获取信息栏下纬度信息")
     public String listInfobarArchive(String infobar_id){
         List<ZsInfobarEntityDTO> zsInfobarEntityDTOS = zsInfobarEntityService.listArchiveInfo(infobar_id);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",zsInfobarEntityDTOS);
+        return ReturnDataUtil.getData(zsInfobarEntityDTOS);
     }
 
     /**
@@ -144,7 +144,7 @@ public class ZsInfobarController {
     @SystemControllerLog(description = "获取主体信息栏实体属性")
     public String listField(@PathVariable("infobar_entity_id")String infobar_entity_id){
         List<ZsInfobarParam> zsInfobarParams = zsInfobarEntityService.listArchiveParam(infobar_entity_id);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",zsInfobarParams);
+        return ReturnDataUtil.getData(zsInfobarParams);
     }
 
     /**

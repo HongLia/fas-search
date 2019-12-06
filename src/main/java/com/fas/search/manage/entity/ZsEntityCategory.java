@@ -7,7 +7,7 @@ public class ZsEntityCategory {
 
     private String name;
 
-    private String parend_id;
+    private String parent_id;
 
     private String remark;
 
@@ -39,12 +39,12 @@ public class ZsEntityCategory {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getParend_id() {
-        return parend_id;
+    public String getParent_id() {
+        return parent_id;
     }
 
-    public void setParend_id(String parend_id) {
-        this.parend_id = parend_id == null ? null : parend_id.trim();
+    public void setParent_id(String parent_id) {
+        this.parent_id = parent_id == null ? null : parent_id.trim();
     }
 
     public String getRemark() {
@@ -108,11 +108,12 @@ public class ZsEntityCategory {
     }
 
 
-    public ZsEntityCategory(String id, String creator, String enable, Date update_time) {
+    public ZsEntityCategory(String id, String creator, String enable, Date update_time,String updator) {
         this.id = id;
         this.creator = creator;
         this.enable = enable;
         this.update_time = update_time;
+        this.updator = updator;
     }
 
     @Override
@@ -120,7 +121,7 @@ public class ZsEntityCategory {
         return "ZsEntityCategory{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", parend_id='" + parend_id + '\'' +
+                ", parend_id='" + parent_id + '\'' +
                 ", remark='" + remark + '\'' +
                 ", create_time=" + create_time +
                 ", creator='" + creator + '\'' +

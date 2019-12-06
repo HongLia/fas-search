@@ -1,6 +1,6 @@
-package com.fas.search.manage.util.common;
+package com.fas.search.util.common;
 
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.user.UserVOUtil;
 
 import java.util.Map;
 import java.util.UUID;

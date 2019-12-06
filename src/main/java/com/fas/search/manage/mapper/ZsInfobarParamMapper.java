@@ -1,5 +1,6 @@
 package com.fas.search.manage.mapper;
 
+import com.fas.search.manage.entity.ZsEntityField;
 import com.fas.search.manage.entity.ZsInfobarParam;
 import org.apache.ibatis.annotations.Param;
 
@@ -42,4 +43,14 @@ public interface ZsInfobarParamMapper {
      * @return
      */
     Integer selectMaxSortValue(String archiveId);
+
+
+    /**
+     * 根据主题信息栏实体id，查询配置的相关字段
+     * @param infobarEntityId
+     * @param detailField
+     * @param overviewField
+     * @return
+     */
+    List<ZsEntityField> listInfobarEntityParam(@Param("infobarEntityId") String infobarEntityId,@Param("detailField") String detailField,@Param("overviewField")String overviewField);
 }

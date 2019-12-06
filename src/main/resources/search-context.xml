@@ -22,11 +22,13 @@
 	<!-- 自动扫描 111-->
    <!-- <context:component-scan base-package="com.fas.search">
     </context:component-scan>
-
 -->
     <import resource="classpath:base-context.xml" />
 <!--    <import resource="classpath:search-mvc.xml"/>-->
     <import resource="classpath:metadata-mybatis.xml"/>
     <import resource="classpath:search-mybatis.xml"/>
+    <import resource="classpath:lts-tasktracker-dispatch-xml.xml"/>
+
+    <bean id="searchEngine" class="com.fas.search.search.engine.impl.SearchEngineElasticsearchServiceImpl"></bean>
 
 </beans>

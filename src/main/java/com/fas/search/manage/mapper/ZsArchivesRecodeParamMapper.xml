@@ -14,10 +14,11 @@
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
     <result column="archive_entity_id" property="archive_entity_id" jdbcType="VARCHAR" />
     <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
+    <result column="search_field" property="search_field" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, showContent, entity_id, archives_id, create_time, updator, update_time, enable,
-    creator, thesort, archive_entity_id, subject_id
+    creator, thesort, archive_entity_id, subject_id,search_field
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
@@ -68,6 +69,9 @@
       <if test="subject_id != null" >
         subject_id,
       </if>
+      <if test="search_field != null" >
+        search_field,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -105,6 +109,9 @@
       </if>
       <if test="subject_id != null" >
         #{subject_id,jdbcType=VARCHAR},
+      </if>
+      <if test="search_field != null" >
+        #{search_field,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -144,7 +151,20 @@
       <if test="subject_id != null" >
         subject_id = #{subject_id,jdbcType=VARCHAR},
       </if>
+      <if test="search_field != null" >
+        search_field = #{search_field,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="getByArchivesEntityId" resultType="com.fas.search.manage.entity.ZsArchivesRecodeParam">
+    select
+        *
+    from
+        zs_archives_recode_param
+    where
+        archive_entity_id = #{archivesEntityId}
+        and enable = 0
+  </select>
 </mapper>

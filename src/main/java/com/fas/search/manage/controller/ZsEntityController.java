@@ -8,7 +8,7 @@ import com.fas.search.manage.entity.ZsEntity;
 import com.fas.search.manage.entity.ZsEntityField;
 import com.fas.search.manage.service.ZsEntityFieldService;
 import com.fas.search.manage.service.ZsEntityService;
-import com.fas.search.manage.util.view.ReturnDataUtil;
+import com.fas.search.util.view.ReturnDataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,7 +77,7 @@ public class ZsEntityController {
     @SystemControllerLog(description = "查询智能搜索实体详细信息")
     public String getById(@PathVariable("id") String id){
         ZsEntity entity = zsEntityService.getById(id);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",entity);
+        return ReturnDataUtil.getData(entity);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ZsEntityController {
     @SystemControllerLog(description = "查询智能搜索实体属性字段")
     public String listFields(@PathVariable("id") String id){
         List<ZsEntityField> zsEntityFields = zsEntityFieldService.listByEntityId(id);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",zsEntityFields);
+        return ReturnDataUtil.getData(zsEntityFields);
     }
 
     /**
@@ -101,7 +101,7 @@ public class ZsEntityController {
     @SystemControllerLog(description = "获取实体的引用关系")
     public String quote(@PathVariable("id")String id){
         List<Map> quote = zsEntityService.quote(id);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",quote);
+        return ReturnDataUtil.getData(quote);
     }
 
     /**
@@ -134,7 +134,7 @@ public class ZsEntityController {
      * @param metadata_id
      * @return
      */
-    @RequestMapping(value = "listTableFields/{metadata_id}")
+    @RequestMapping(value = "listTableFields/{metadata_id}",method = RequestMethod.GET)
     @SystemControllerLog(description = "获取数据源数据库表字段信息")
     public String listTableFields(@PathVariable("metadata_id")String metadata_id){
         String column = metaDataInterfaceService.getColumn(metadata_id);

@@ -10,9 +10,10 @@
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
     <result column="enable" property="enable" jdbcType="CHAR" />
     <result column="show_source" property="show_source" jdbcType="CHAR" />
+    <result column="relation_field" property="relation_field" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, entity_id, archives_id, creator, create_time, thesort, enable, show_source ,updator
+    id, entity_id, archives_id, creator, create_time, thesort, enable, show_source ,updator,relation_field
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -54,6 +55,9 @@
       <if test="updator != null" >
         updator,
       </if>
+      <if test="relation_field != null" >
+        relation_field,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -82,6 +86,9 @@
       </if>
       <if test="updator != null" >
         #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="relation_field != null" >
+        #{relation_field,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -112,9 +119,18 @@
       <if test="show_source != null" >
         show_source = #{show_source,jdbcType=CHAR},
       </if>
+      <if test="relation_field != null" >
+        relation_field = #{relation_field,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
 
+  <select id="listArchivesEntity" resultType="com.fas.search.manage.entity.ZsArchivesEntity">
+    select *
+    from zs_archives_entity
+    where archives_id = #{archivesId}
+    and  enable = 0
+  </select>
 </mapper>

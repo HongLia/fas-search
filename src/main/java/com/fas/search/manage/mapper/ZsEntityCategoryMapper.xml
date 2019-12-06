@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.fas.search.manage.entity.ZsEntityCategory" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="parend_id" property="parend_id" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parent_id" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -14,7 +14,7 @@
     <result column="thesort" property="thesort" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, parend_id, remark, create_time, creator, enable, updator, update_time, 
+    id, name, parent_id, remark, create_time, creator, enable, updator, update_time, 
     thesort
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -28,11 +28,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.fas.search.manage.entity.ZsEntityCategory" >
-    insert into zs_entity_category (id, name, parend_id, 
+    insert into zs_entity_category (id, name, parent_id, 
       remark, create_time, creator, 
       enable, updator, update_time, 
       thesort)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parend_id,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parent_id,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
       #{enable,jdbcType=CHAR}, #{updator,jdbcType=VARCHAR}, #{update_time,jdbcType=TIMESTAMP}, 
       #{thesort,jdbcType=INTEGER})
@@ -46,8 +46,8 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="parend_id != null" >
-        parend_id,
+      <if test="parent_id != null" >
+        parent_id,
       </if>
       <if test="remark != null" >
         remark,
@@ -72,8 +72,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="parend_id != null" >
-        #{parend_id,jdbcType=VARCHAR},
+      <if test="parent_id != null" >
+        #{parent_id,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -101,8 +101,8 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="parend_id != null" >
-        parend_id = #{parend_id,jdbcType=VARCHAR},
+      <if test="parent_id != null" >
+        parent_id = #{parent_id,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -128,7 +128,7 @@
   <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsEntityCategory" >
     update zs_entity_category
     set name = #{name,jdbcType=VARCHAR},
-      parend_id = #{parend_id,jdbcType=VARCHAR},
+      parent_id = #{parent_id,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{create_time,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=VARCHAR},
@@ -142,7 +142,7 @@
     SELECT
         id,
         name,
-        parend_id pid,
+        parent_id pid,
         '0' type
     FROM
         zs_entity_category
@@ -170,8 +170,8 @@
     <if test="name != null" >
       and name = #{name,jdbcType=VARCHAR}
     </if>
-    <if test="parend_id != null" >
-      and parend_id = #{parend_id,jdbcType=VARCHAR}
+    <if test="parent_id != null" >
+      and parent_id = #{parent_id,jdbcType=VARCHAR}
     </if>
     <if test="remark != null" >
       and remark = #{remark,jdbcType=VARCHAR}

@@ -9,9 +9,11 @@
     <result column="search_time" property="search_time" jdbcType="TIMESTAMP" />
     <result column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="dataid" property="dataid" jdbcType="VARCHAR" />
+    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, subject_id, searchkey, type, search_time, userid, username
+    id, subject_id, searchkey, type, search_time, userid, username, dataid, entity_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -43,6 +45,12 @@
       <if test="username != null" >
         username,
       </if>
+      <if test="dataid != null" >
+          dataid,
+      </if>
+      <if test="entity_id != null" >
+          entity_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -65,6 +73,12 @@
       </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="dataid != null" >
+        #{dataid,jdbcType=VARCHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -125,11 +139,13 @@
         FROM
             zs_user_record a
         LEFT JOIN zs_subject b ON a.subject_id = b.id
-        <where>
-            <if test="userName != null">
-                username = #{userName}
+        where 1=1
+            <if test="record.username != null">
+                and username = #{record.username}
             </if>
-        </where>
+            <if test="record.userid != null">
+                and userid = #{record.userid}
+            </if>
         ORDER BY
             search_time DESC
         <if test="page != null">
@@ -183,6 +199,48 @@
             <if test="userName != null">
                 username = #{userName}
             </if>
+        </where>
+    </select>
+
+    <select id="latelyRecord" resultType="java.lang.String">
+        SELECT
+            searchkey
+        FROM
+            `zs_user_record`
+        where userid= #{userid}
+        GROUP BY
+            searchkey
+        ORDER BY search_time desc
+        LIMIT 0,5
+    </select>
+
+    <select id="countSelected" resultType="java.lang.Long">
+        select count(*)
+        from zs_user_record
+        <where>
+            <trim  suffixOverrides="AND" >
+                <if test="subject_id != null" >
+                    subject_id = #{subject_id,jdbcType=VARCHAR} AND
+                </if>
+                <if test="searchkey != null" >
+                    searchkey = #{searchkey,jdbcType=VARCHAR} AND
+                </if>
+                <if test="type != null" >
+                    type = #{type,jdbcType=CHAR} AND
+                </if>
+                <if test="userid != null" >
+                    userid = #{userid,jdbcType=VARCHAR} AND
+                </if>
+                <if test="username != null" >
+                    username = #{username,jdbcType=VARCHAR} AND
+                </if>
+                <if test="dataid != null" >
+                    dataid = #{dataid,jdbcType=VARCHAR} AND
+                </if>
+                <if test="entity_id != null" >
+                    entity_id = #{entity_id,jdbcType=VARCHAR}
+                </if>
+            </trim>
         </where>
     </select>
 </mapper>

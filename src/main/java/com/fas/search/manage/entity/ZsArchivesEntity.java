@@ -21,6 +21,8 @@ public class ZsArchivesEntity {
 
     private String updator;
 
+    private String relation_field;
+
     public String getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class ZsArchivesEntity {
 
     public void setUpdator(String updator) {
         this.updator = updator;
+    }
+
+    public String getRelation_field() {
+        return relation_field;
+    }
+
+    public void setRelation_field(String relation_field) {
+        this.relation_field = relation_field;
     }
 }

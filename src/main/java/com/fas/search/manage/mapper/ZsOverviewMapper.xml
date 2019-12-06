@@ -104,7 +104,7 @@
         thesort = #{thesort,jdbcType=INTEGER},
       </if>
       <if test="enable != null" >
-        thesort = #{enable,jdbcType=VARCHAR},
+        enable = #{enable,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -203,4 +203,48 @@
             and config = #{config}
         </if>
     </select>
+
+
+    <select id="listByCondition" resultType="com.fas.search.manage.entity.ZsOverview" >
+        select *
+        from zs_overview
+        <where>
+            <trim suffixOverrides="AND">
+                <if test="entity_id != null" >
+                    entity_id = #{entity_id,jdbcType=VARCHAR} AND
+                </if>
+                <if test="subject_id != null" >
+                    subject_id = #{subject_id,jdbcType=VARCHAR} AND
+                </if>
+                <if test="creator != null" >
+                    creator = #{creator,jdbcType=VARCHAR} AND
+                </if>
+                <if test="enable != null" >
+                    enable = #{enable,jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+
+
+
+    <select id="getObjectIdParam" resultType="com.fas.search.manage.entity.ZsOverviewParam">
+    SELECT
+        *
+    FROM
+        zs_overview_param
+    WHERE
+        overview_id = (
+            SELECT
+                id
+            FROM
+                zs_overview
+            WHERE
+                ENABLE = 0
+            AND entity_id = #{entity_id}
+            AND subject_id = #{subject_id}
+        )
+    AND dic_id = #{dic_id}
+  </select>
 </mapper>

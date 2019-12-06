@@ -10,7 +10,7 @@ import com.fas.search.manage.entity.ZsOverviewTemplate;
 import com.fas.search.manage.service.ZsOverviewParamService;
 import com.fas.search.manage.service.ZsOverviewService;
 import com.fas.search.manage.service.ZsOverviewTemplateService;
-import com.fas.search.manage.util.view.ReturnDataUtil;
+import com.fas.search.util.view.ReturnDataUtil;
 import com.fas.search.manage.vo.PageDataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,7 +82,7 @@ public class ZsOverviewController {
         //查询总数
         Integer count = zsOverviewService.countByCondition(overview);
         //返回结果
-        return  FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",new PageDataVO(count,maps));
+        return ReturnDataUtil.getPageData(count,maps);
     }
 
     /**
@@ -96,7 +96,7 @@ public class ZsOverviewController {
         //调用查询接口
         List<Map<String, Object>> atts = zsOverviewParamService.listParamsByOverviewId(overview_id);
         //返回数据
-        return  FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",atts);
+        return ReturnDataUtil.getData(atts);
     }
 
 
@@ -129,7 +129,7 @@ public class ZsOverviewController {
         //调用查询接口，
         List<Map<String, Object>> templates = zsOverviewTemplateService.listTemplateBySubjectId(subject_id);
         //返回数据
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",templates);
+        return ReturnDataUtil.getData(templates);
     }
 
     /**

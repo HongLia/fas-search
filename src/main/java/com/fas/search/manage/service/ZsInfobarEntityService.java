@@ -59,4 +59,13 @@ public interface ZsInfobarEntityService {
      * @return
      */
     Integer sortParam(String paramId,String sortType);
+
+
+    /**
+     * 根据信息栏id，查询信息栏各个纬度信息，以及包含纬度属性
+     * @param infobarId
+     * @return
+     */
+    List<ZsInfobarEntityDTO> listInfobarEntitys(String infobarId);
+
 }

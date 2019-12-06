@@ -1,4 +1,4 @@
-package com.fas.search.manage.util.user;
+package com.fas.search.util.user;
 
 import com.fas.base.shiro.UserVO;
 import org.apache.shiro.SecurityUtils;

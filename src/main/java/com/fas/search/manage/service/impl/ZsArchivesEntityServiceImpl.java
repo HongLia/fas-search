@@ -1,6 +1,5 @@
 package com.fas.search.manage.service.impl;
 
-import com.fas.base.shiro.UserVO;
 import com.fas.search.manage.entity.ZsArchives;
 import com.fas.search.manage.entity.ZsArchivesEntity;
 import com.fas.search.manage.entity.ZsArchivesRecodeParam;
@@ -12,8 +11,8 @@ import com.fas.search.manage.mapper.ZsArchivesMapper;
 import com.fas.search.manage.mapper.ZsArchivesRecodeParamMapper;
 import com.fas.search.manage.mapper.ZsArchivesTableParamMapper;
 import com.fas.search.manage.service.ZsArchivesEntityService;
-import com.fas.search.manage.util.common.BeanEntityTransformUtil;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.common.BeanEntityTransformUtil;
+import com.fas.search.util.user.UserVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

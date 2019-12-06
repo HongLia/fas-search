@@ -6,7 +6,7 @@ import com.fas.base.util.FasReturn;
 import com.fas.base.util.enums.ResultEnum;
 import com.fas.search.manage.entity.ZsEtlTask;
 import com.fas.search.manage.service.ZsEtlTaskService;
-import com.fas.search.manage.util.view.ReturnDataUtil;
+import com.fas.search.util.view.ReturnDataUtil;
 import com.fas.search.manage.vo.PageDataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,6 +95,6 @@ public class ZsEtlTaskController {
         //统计数据量
         Integer counts = zsEtlTaskService.countNum(etlTask);
         //返回数据
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",new PageDataVO(counts,tasks));
+        return ReturnDataUtil.getPageData(counts,tasks);
     }
 }

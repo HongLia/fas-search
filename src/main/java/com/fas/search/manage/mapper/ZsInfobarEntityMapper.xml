@@ -182,6 +182,9 @@
     LEFT JOIN zs_infobar_param b ON a.id = b.infobar_entity_id
     LEFT JOIN zs_entity_field c ON b.entity_field_id = c.id
     where a.enable = 0 and  a.infobar_id  = #{infobarId}
+    <if test="overviewField != null" >
+        and overview_field = '0'
+    </if>
     order by a.create_time , b.thesort
   </select>
 
@@ -199,7 +202,4 @@
     </if>
   </select>
 
-
-
-  
 </mapper>

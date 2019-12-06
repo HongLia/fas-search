@@ -1,6 +1,7 @@
 package com.fas.search.manage.service.impl;
 
 import com.fas.base.model.Page;
+import com.fas.search.manage.entity.ZsUserRecord;
 import com.fas.search.manage.mapper.ZsUserRecordMapper;
 import com.fas.search.manage.service.ZsUserRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class ZsUserRecordServiceImpl implements ZsUserRecordService {
     }
 
     @Override
-    public List<Map<String, Object>> listUse(String userName, Page page) {
-        return zsUserRecordMapper.listUse(userName,page);
+    public List<Map<String, Object>> listUse(ZsUserRecord record, Page page) {
+        return zsUserRecordMapper.listUse(record,page);
     }
 
     @Override
@@ -46,5 +47,20 @@ public class ZsUserRecordServiceImpl implements ZsUserRecordService {
     @Override
     public Integer countUser(String userName) {
         return zsUserRecordMapper.countUse(userName);
+    }
+
+    @Override
+    public List<String> latelyRecord(String userid) {
+        return zsUserRecordMapper.latelyRecord(userid);
+    }
+
+    @Override
+    public Integer saveRecord(ZsUserRecord zsUserRecord) {
+        return zsUserRecordMapper.insertSelective(zsUserRecord);
+    }
+
+    @Override
+    public Long countRecord(ZsUserRecord zsUserRecord) {
+        return zsUserRecordMapper.countSelected(zsUserRecord);
     }
 }

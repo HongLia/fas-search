@@ -5,13 +5,12 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="subject_id" property="subject_id" jdbcType="VARCHAR" />
     <result column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="entity_id" property="entity_id" jdbcType="VARCHAR" />
     <result column="attention_time" property="attention_time" jdbcType="TIMESTAMP" />
     <result column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="enable" property="enable" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, subject_id, object_id, entity_id, attention_time, userid, enable
+    id, subject_id, object_id, attention_time, userid, enable
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -23,14 +22,6 @@
     delete from zs_user_attention
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
-    insert into zs_user_attention (id, subject_id, object_id, 
-      entity_id, attention_time, userid, 
-      enable)
-    values (#{id,jdbcType=VARCHAR}, #{subject_id,jdbcType=VARCHAR}, #{object_id,jdbcType=VARCHAR}, 
-      #{entity_id,jdbcType=VARCHAR}, #{attention_time,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
-      #{enable,jdbcType=CHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
     insert into zs_user_attention
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -43,9 +34,6 @@
       <if test="object_id != null" >
         object_id,
       </if>
-      <if test="entity_id != null" >
-        entity_id,
-      </if>
       <if test="attention_time != null" >
         attention_time,
       </if>
@@ -54,6 +42,12 @@
       </if>
       <if test="enable != null" >
         enable,
+      </if>
+      <if test="entity_id != null" >
+        entity_id,
+      </if>
+      <if test="data_id != null" >
+        data_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -66,9 +60,6 @@
       <if test="object_id != null" >
         #{object_id,jdbcType=VARCHAR},
       </if>
-      <if test="entity_id != null" >
-        #{entity_id,jdbcType=VARCHAR},
-      </if>
       <if test="attention_time != null" >
         #{attention_time,jdbcType=TIMESTAMP},
       </if>
@@ -77,6 +68,12 @@
       </if>
       <if test="enable != null" >
         #{enable,jdbcType=CHAR},
+      </if>
+      <if test="entity_id != null" >
+        #{entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="data_id != null" >
+        #{data_id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -88,9 +85,6 @@
       </if>
       <if test="object_id != null" >
         object_id = #{object_id,jdbcType=VARCHAR},
-      </if>
-      <if test="entity_id != null" >
-        entity_id = #{entity_id,jdbcType=VARCHAR},
       </if>
       <if test="attention_time != null" >
         attention_time = #{attention_time,jdbcType=TIMESTAMP},
@@ -104,14 +98,95 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fas.search.manage.entity.ZsUserAttention" >
-    update zs_user_attention
-    set subject_id = #{subject_id,jdbcType=VARCHAR},
-      object_id = #{object_id,jdbcType=VARCHAR},
-      entity_id = #{entity_id,jdbcType=VARCHAR},
-      attention_time = #{attention_time,jdbcType=TIMESTAMP},
-      userid = #{userid,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=CHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <select id="countUserAttentionSelective" resultType="java.lang.Integer">
+    select count(*)
+    from zs_user_attention
+    <trim  suffixOverrides="AND" >
+      <if test="subject_id != null" >
+        subject_id = #{subject_id,jdbcType=VARCHAR} AND
+      </if>
+      <if test="object_id != null" >
+        object_id = #{object_id,jdbcType=VARCHAR} AND
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR} AND
+      </if>
+      <if test="data_id != null" >
+        data_id = #{data_id,jdbcType=VARCHAR} AND
+      </if>
+    </trim>
+  </select>
+
+  <delete id="cancleAttention" >
+    delete from zs_user_attention
+    where
+       subject_id = #{subjectId,jdbcType=VARCHAR} AND
+       userid = #{userId,jdbcType=VARCHAR} AND
+       data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+
+  <select id="userAttentionNum" resultType="java.util.Map">
+
+	SELECT
+        a.id AS subject_id,
+        a. NAME AS subject_name,
+        CASE
+    WHEN b.attention_num IS NULL THEN
+        0
+    ELSE
+        b.attention_num
+    END AS attention_num
+    FROM
+        zs_subject a
+    LEFT JOIN (
+        SELECT
+            count(*) attention_num,
+            subject_id
+        FROM
+            zs_user_attention
+        WHERE
+            userid = #{userId}
+        GROUP BY
+            subject_id
+    ) b ON a.id = b.subject_id
+    WHERE
+        a. ENABLE = 0
+    ORDER BY
+        a.thesort
+  </select>
+
+  <select id="allAttentionNum" resultType="java.lang.Integer">
+    select
+        count(*)
+    from
+        zs_user_attention
+    WHERE
+        entity_id = #{entityId}
+        and subject_id = #{subjectId}
+        and data_id = #{dataId}
+  </select>
+
+  <select id="listUserAttention" resultType="com.fas.search.manage.entity.ZsUserAttention">
+    select
+        *
+    from
+        zs_user_attention
+    where
+        userid = #{userId}
+        <if test="subjectId != null">
+          and subject_id = #{subjectId}
+        </if>
+        <if test="subjectId == null">
+          and subject_id in (
+          select id
+          from zs_subject
+          where `enable` = 0
+          )
+        </if>
+    order by attention_time
+    <if test="page != null">
+      limit #{page.start} , #{page.length}
+    </if>
+  </select>
 </mapper>

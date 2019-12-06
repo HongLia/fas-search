@@ -210,4 +210,42 @@
     from zs_infobar_param
     where infobar_entity_id = #{archiveId}
   </select>
+
+  <select id="listInfobarEntityParam" resultType="com.fas.search.manage.entity.ZsEntityField">
+    SELECT
+      b.id,
+      b.ename,
+      b.tableename,
+      b.entity_id,
+      b.field_type,
+      CASE
+      WHEN a.showname IS NOT NULL THEN
+          a.showname
+      WHEN b.cname IS NOT NULL THEN
+          b.cname
+      ELSE
+          b.ename
+      END AS cname
+    FROM
+    (
+      SELECT
+        entity_field_id,
+        showname,
+        thesort
+      FROM
+        `zs_infobar_param`
+      WHERE
+        infobar_entity_id = #{infobarEntityId}
+        <if test="detailField != null">
+          AND detail_field = #{detailField}
+        </if>
+        <if test="overviewField != null">
+          AND overview_field = #{overviewField}
+        </if>
+      ) a
+    LEFT JOIN
+        zs_entity_field b ON a.entity_field_id = b.id
+    ORDER BY
+        a.thesort
+  </select>
 </mapper>

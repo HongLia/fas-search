@@ -4,8 +4,10 @@ import com.fas.base.log.SystemControllerLog;
 import com.fas.base.model.Page;
 import com.fas.base.util.FasReturn;
 import com.fas.base.util.enums.ResultEnum;
+import com.fas.search.manage.entity.ZsUserRecord;
 import com.fas.search.manage.service.ZsUserRecordService;
 import com.fas.search.manage.vo.PageDataVO;
+import com.fas.search.util.view.ReturnDataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +37,7 @@ public class ZsUserRecordController {
     @SystemControllerLog(description = "获取智能搜索使用情况")
     public String getCenusus(){
         Map<String, Object> userCensus = zsUserRecordService.getUserCensus();
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",userCensus);
+        return ReturnDataUtil.getData(userCensus);
     }
 
     /**
@@ -46,10 +48,10 @@ public class ZsUserRecordController {
      */
     @RequestMapping(value = "use",method = RequestMethod.GET)
     @SystemControllerLog(description = "用户搜索使用记录展示")
-    public String listUse(String username, Page page){
-        List<Map<String, Object>> use = zsUserRecordService.listUse(username, page);
-        Integer countUse = zsUserRecordService.countUse(username);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",new PageDataVO(countUse,use));
+    public String listUse(ZsUserRecord record, Page page){
+        List<Map<String, Object>> use = zsUserRecordService.listUse(record, page);
+        Integer countUse = zsUserRecordService.countUse(record.getUsername());
+        return ReturnDataUtil.getPageData(countUse,use);
     }
 
 
@@ -64,7 +66,7 @@ public class ZsUserRecordController {
     public String listUser(String username,Page page){
         List<Map<String, Object>> user = zsUserRecordService.listUser(username, page);
         Integer countUser = zsUserRecordService.countUser(username);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功!",new PageDataVO(countUser,user));
+        return ReturnDataUtil.getPageData(countUser,user);
     }
 
 

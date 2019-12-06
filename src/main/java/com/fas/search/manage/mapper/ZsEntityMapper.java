@@ -1,6 +1,8 @@
 package com.fas.search.manage.mapper;
 
 import com.fas.search.manage.entity.ZsEntity;
+
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Map;
 public interface ZsEntityMapper {
@@ -22,4 +24,11 @@ public interface ZsEntityMapper {
      * @return
      */
     List<Map> quote(String id);
+
+    /**
+     * 通过主题id查询实体信息
+     * @param subjectId
+     * @return
+     */
+    List<ZsEntity> listSubjectEntity(String subjectId);
 }

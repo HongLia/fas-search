@@ -1,8 +1,6 @@
-package com.fas.search.manage.util.common;
+package com.fas.search.util.common;
 
-import com.fas.base.shiro.UserVO;
-import com.fas.search.manage.entity.ZsEntityCategory;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.user.UserVOUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

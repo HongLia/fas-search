@@ -35,6 +35,8 @@ public class ZsArchivesTableParam {
 
     private String archive_entity_id;
 
+    private String search_pk;
+
     public String getId() {
         return id;
     }
@@ -161,5 +163,13 @@ public class ZsArchivesTableParam {
 
     public void setArchive_entity_id(String archive_entity_id) {
         this.archive_entity_id = archive_entity_id;
+    }
+
+    public String getSearch_pk() {
+        return search_pk;
+    }
+
+    public void setSearch_pk(String search_pk) {
+        this.search_pk = search_pk;
     }
 }

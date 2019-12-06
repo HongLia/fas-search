@@ -29,6 +29,8 @@ public class ZsEtlTask {
 
     private Date last_execute_time;
 
+    private String delete_old;
+
     public String getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class ZsEtlTask {
 
     public void setLast_execute_time(Date last_execute_time) {
         this.last_execute_time = last_execute_time;
+    }
+
+    public String getDelete_old() {
+        return delete_old;
+    }
+
+    public void setDelete_old(String delete_old) {
+        this.delete_old = delete_old;
     }
 }

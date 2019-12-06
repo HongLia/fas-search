@@ -17,7 +17,8 @@
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
     <result column="entity_field_id" property="entity_field_id" jdbcType="VARCHAR" />
-    <result column="archive_entity_id" property="archive_entity_id" jdbcType="INTEGER" />
+    <result column="archive_entity_id" property="archive_entity_id" jdbcType="VARCHAR" />
+    <result column="search_pk" property="search_pk" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insertSelective" parameterType="com.fas.search.manage.entity.ZsArchivesTableParam" >
     insert into zs_archives_table_param
@@ -70,6 +71,9 @@
       <if test="archive_entity_id != null" >
         archive_entity_id,
       </if>
+      <if test="search_pk != null" >
+        search_pk,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,7 +122,10 @@
         #{entity_field_id,jdbcType=VARCHAR},
       </if>
       <if test="archive_entity_id != null" >
-        #{archive_entity_id,jdbcType=INTEGER},
+        #{archive_entity_id,jdbcType=VARCHAR},
+      </if>
+      <if test="search_pk != null" >
+        #{search_pk,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -214,4 +221,6 @@
     from zs_archives_table_param
     where archive_entity_id = #{archiveEntityId}
   </select>
+
+
 </mapper>

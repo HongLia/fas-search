@@ -1,11 +1,12 @@
 package com.fas.search.manage.service.impl;
 
 import com.fas.search.manage.entity.ZsArchives;
+import com.fas.search.manage.entity.ZsArchivesDTO;
 import com.fas.search.manage.exception.NameRepeatException;
 import com.fas.search.manage.mapper.ZsArchivesMapper;
 import com.fas.search.manage.service.ZsArchivesService;
-import com.fas.search.manage.util.common.BeanEntityTransformUtil;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.common.BeanEntityTransformUtil;
+import com.fas.search.util.user.UserVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,5 +81,10 @@ public class ZsArchivesServiceImpl implements ZsArchivesService {
     @Override
     public List<ZsArchives> listArchives(String subjectId) {
         return zsArchivesMapper.listArchives(subjectId);
+    }
+
+    @Override
+    public List<ZsArchivesDTO> listDetailArchives(String subjectId) {
+        return zsArchivesMapper.listDetailArchives(subjectId);
     }
 }

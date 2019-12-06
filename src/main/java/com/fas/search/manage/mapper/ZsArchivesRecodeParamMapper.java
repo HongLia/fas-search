@@ -11,4 +11,11 @@ public interface ZsArchivesRecodeParamMapper {
 
     int updateByPrimaryKeySelective(ZsArchivesRecodeParam record);
 
+    /**
+     * 根据档案维度实体关联id查询
+     * @param archivesEntityId
+     * @return
+     */
+    ZsArchivesRecodeParam getByArchivesEntityId(String archivesEntityId);
+
 }

@@ -5,8 +5,8 @@ import com.fas.search.manage.exception.NameRepeatException;
 import com.fas.search.manage.exception.SearchPkRepeatException;
 import com.fas.search.manage.mapper.ZsSubjectDicsMapper;
 import com.fas.search.manage.service.ZsSubjectDicService;
-import com.fas.search.manage.util.common.BeanEntityTransformUtil;
-import com.fas.search.manage.util.user.UserVOUtil;
+import com.fas.search.util.common.BeanEntityTransformUtil;
+import com.fas.search.util.user.UserVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,7 +94,7 @@ public class ZsSubjectDicServiceImpl implements ZsSubjectDicService {
             throw new NameRepeatException("英文名已经存在");
         //判断查询主键是否已经设置过
         Long searchPkCount = cs.get("searchPkCount");
-        if ( searchPkCount != null && searchPkCount > 0)
+        if ("0".equals(dic.getSearchpk()) && searchPkCount != null && searchPkCount > 0)
             throw new SearchPkRepeatException("查询主键已经设置");
     }
 }

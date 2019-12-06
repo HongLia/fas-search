@@ -5,9 +5,8 @@ import com.fas.base.util.FasReturn;
 import com.fas.base.util.enums.ResultEnum;
 import com.fas.search.manage.entity.ZsSubjectDics;
 import com.fas.search.manage.service.ZsSubjectDicService;
-import com.fas.search.manage.util.view.ReturnDataUtil;
+import com.fas.search.util.view.ReturnDataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,7 +80,7 @@ public class ZsSubjectDisController {
         //调用业务查询方法
         List<ZsSubjectDics> zsSubjectDics = zsSubjectDicService.listBySubjectId(subject_id);
         //返回结果
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功", zsSubjectDics);
+        return ReturnDataUtil.getData(zsSubjectDics);
     }
 
 }

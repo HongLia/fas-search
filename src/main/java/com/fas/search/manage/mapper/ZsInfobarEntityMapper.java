@@ -2,6 +2,7 @@ package com.fas.search.manage.mapper;
 
 import com.fas.search.manage.entity.ZsInfobarEntity;
 import com.fas.search.manage.entity.ZsInfobarEntityDTO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface ZsInfobarEntityMapper {
      * @param infobarId
      * @return
      */
-    List<ZsInfobarEntityDTO> listArchiveInfo(String infobarId);
+    List<ZsInfobarEntityDTO> listArchiveInfo(@Param("infobarId") String infobarId, @Param("overviewField") String overviewField);
 
     /**
      * 校验 信息栏名字 数量，从而判断数据是否重复
@@ -27,6 +28,16 @@ public interface ZsInfobarEntityMapper {
      * @return
      */
     Integer checkNum(ZsInfobarEntity zsInfobarEntity);
+
+
+
+    /**
+     * 根据信息栏id，查询信息栏下纬度信息，以及纬度属性信息
+     * @param infobarId
+     * @return
+     */
+/*    List<ZsInfobarEntityDTO> listInfobarEntity(String infobarId);*/
+
 
 
 }

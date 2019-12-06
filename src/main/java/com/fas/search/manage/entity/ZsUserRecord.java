@@ -17,6 +17,10 @@ public class ZsUserRecord {
 
     private String username;
 
+    private String dataid;
+
+    private String entity_id;
+
     public String getId() {
         return id;
     }
@@ -71,5 +75,21 @@ public class ZsUserRecord {
 
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    public String getDataid() {
+        return dataid;
+    }
+
+    public void setDataid(String dataid) {
+        this.dataid = dataid;
+    }
+
+    public String getEntity_id() {
+        return entity_id;
+    }
+
+    public void setEntity_id(String entity_id) {
+        this.entity_id = entity_id;
     }
 }

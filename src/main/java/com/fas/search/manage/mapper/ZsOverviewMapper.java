@@ -2,6 +2,7 @@ package com.fas.search.manage.mapper;
 
 import com.fas.base.model.Page;
 import com.fas.search.manage.entity.ZsOverview;
+import com.fas.search.manage.entity.ZsOverviewParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -32,5 +33,23 @@ public interface ZsOverviewMapper {
      * @return
      */
     Integer countByCondition(ZsOverview overview);
+
+
+    /**
+     * 条件查询概览信息
+     * @param zsOverview
+     * @return
+     */
+    List<ZsOverview> listByCondition(ZsOverview zsOverview);
+
+
+    /**
+     * 获取查询主键对应的字段信息
+     * @param subjectId
+     * @param entityId
+     * @param dicId
+     * @return
+     */
+    ZsOverviewParam getObjectIdParam(@Param("subject_id")String subjectId, @Param("entity_id")String entityId, @Param("dic_id")String dicId);
 
 }

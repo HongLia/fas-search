@@ -27,6 +27,9 @@ public class ZsArchivesRecodeParam {
 
     private String subject_id;
 
+    private String search_field;
+
+
     public String getId() {
         return id;
     }
@@ -121,5 +124,13 @@ public class ZsArchivesRecodeParam {
 
     public void setSubject_id(String subject_id) {
         this.subject_id = subject_id == null ? null : subject_id.trim();
+    }
+
+    public String getSearch_field() {
+        return search_field;
+    }
+
+    public void setSearch_field(String search_field) {
+        this.search_field = search_field;
     }
 }

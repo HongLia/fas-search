@@ -178,4 +178,73 @@
     WHERE
         a.subject_id = #{subject_id}
   </select>
+
+
+
+  <!-- 1根据主题id查询出主题配置概览展示的项有哪些
+       2根据主题id和实体id和dic_id,找到该实体配置的展示字段、
+       3联合查询出真正实体的字段-->
+  <select id="listReturnField" resultType="com.fas.search.manage.entity.ZsEntityField">
+    SELECT
+        b.*
+    FROM
+        (
+            SELECT
+                *
+            FROM
+                zs_overview_param
+            WHERE
+                dic_id IN (
+                    SELECT
+                        dic_id
+                    FROM
+                        zs_overview_template
+                    WHERE
+                        subject_id = #{subjectId}
+                    UNION
+                    select
+                        id
+                    from
+                        zs_subject_dics
+                    where searchpk = 0
+                )
+            AND subject_id = #{subjectId}
+            AND entity_id = #{entityId}
+        ) a LEFT join zs_entity_field b ON a.entity_field_id = b.id
+  </select>
+  <!-- 1根据主题id查询出主题配置概览展示的项有哪些
+       2根据主题id和实体id和dic_id,找到该实体配置的展示字段、
+       3联合查询出真正实体的字段-->
+  <select id="listSearchField" resultType="com.fas.search.manage.entity.ZsEntityField">
+      SELECT
+          b.*
+      FROM
+          (
+              SELECT
+                  *
+              FROM
+                  zs_overview_param
+              WHERE
+              search_field = 0
+            AND subject_id = #{subjectId}
+            AND entity_id = #{entityId}
+          ) a LEFT join zs_entity_field b ON a.entity_field_id = b.id
+  </select>
+
+  <select id="listTemplateParam" resultType="java.util.HashMap">
+    SELECT
+        a.template_type ,
+        a.thesort,
+        b.cname as dic_name,
+        a.dic_id,
+        c.attename
+    FROM
+        zs_overview_template a
+    LEFT JOIN zs_subject_dics b ON a.dic_id = b.id
+    LEFT JOIN zs_overview_param c on c.dic_id = a.dic_id
+    WHERE
+        a.subject_id = #{subjectId}
+        and c.entity_id = #{entityId}
+    order by a.thesort,template_type
+  </select>
 </mapper>

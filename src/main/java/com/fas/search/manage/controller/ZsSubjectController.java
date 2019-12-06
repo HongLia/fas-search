@@ -6,7 +6,7 @@ import com.fas.base.util.FasReturn;
 import com.fas.base.util.enums.ResultEnum;
 import com.fas.search.manage.entity.ZsSubject;
 import com.fas.search.manage.service.ZsSubjectService;
-import com.fas.search.manage.util.view.ReturnDataUtil;
+import com.fas.search.util.view.ReturnDataUtil;
 import com.fas.search.manage.vo.PageDataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -75,7 +75,7 @@ public class ZsSubjectController {
     @SystemControllerLog(description = "根据id查询主体详细信息")
     public String getById(@PathVariable("id") String id){
         ZsSubject subject = zsSubjectService.getById(id);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功",subject);
+        return ReturnDataUtil.getData(subject);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ZsSubjectController {
     public String getByPage(ZsSubject subject, Page page){
         List<ZsSubject> zsSubjects = zsSubjectService.listByCondition(subject, page);
         Integer count = zsSubjectService.countByCondition(subject);
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功", new PageDataVO(count,zsSubjects));
+        return ReturnDataUtil.getPageData(count,zsSubjects);
     }
 
 
@@ -102,7 +102,7 @@ public class ZsSubjectController {
     @SystemControllerLog(description = "下线智能搜索主体")
     public String offline(@PathVariable("id")String id){
         Integer result = zsSubjectService.updateLine(id, "2");
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功",result);
+        return ReturnDataUtil.saveOrUpdateOrDel(result);
     }
 
     /**
@@ -114,7 +114,7 @@ public class ZsSubjectController {
     @SystemControllerLog(description = "上线主体")
     public String online(@PathVariable("id")String id){
         Integer result = zsSubjectService.updateLine(id, "0");
-        return FasReturn.getFasReturn(ResultEnum.SUNCESS,"操作成功",result);
+        return ReturnDataUtil.saveOrUpdateOrDel(result);
     }
 
 
