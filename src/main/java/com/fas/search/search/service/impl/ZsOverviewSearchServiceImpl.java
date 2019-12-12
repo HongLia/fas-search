@@ -6,6 +6,7 @@ import com.fas.search.manage.mapper.*;
 import com.fas.search.manage.service.ZsSubjectService;
 import com.fas.search.search.bo.SearchConditionBO;
 import com.fas.search.search.bo.SearchResultBO;
+import com.fas.search.search.common.pool.es.EsConfigureUtil;
 import com.fas.search.search.common.thread.search.WriteExcelDate;
 import com.fas.search.search.common.thread.search.WriteExcelInfobarDate;
 import com.fas.search.search.engine.SearchEngineService;
@@ -99,18 +100,14 @@ public class ZsOverviewSearchServiceImpl implements ZsOverviewSearchService {
         SXSSFWorkbook workbook = new SXSSFWorkbook();
         //新建
         CountDownLatch countDownLatch = new CountDownLatch(zsSubjects.size());
-        ExecutorService executorService = null;
         try {
-            executorService = Executors.newFixedThreadPool(zsSubjects.size());
             for (int i = 0; i < zsSubjects.size(); i++) {
                 Sheet sheet = workbook.createSheet(zsSubjects.get(i).getName());
-                executorService.submit(new WriteExcelDate(zsSubjectDicsMapper,zsOverviewMapper,zsEntityMapper,zsOverviewTemplateMapper,searchEngineService,key,zsSubjects.get(i).getId(),searchClass,workbook,sheet,countDownLatch));
+                WriteExcelDate.executorService.submit(new WriteExcelDate(zsSubjectDicsMapper,zsOverviewMapper,zsEntityMapper,zsOverviewTemplateMapper,searchEngineService,key,zsSubjects.get(i).getId(),searchClass,workbook,sheet,countDownLatch));
             }
             countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }finally {
-            executorService.shutdown();
         }
         return workbook;
     }
@@ -172,10 +169,8 @@ public class ZsOverviewSearchServiceImpl implements ZsOverviewSearchService {
         //栏
         CountDownLatch countDownLatch = new CountDownLatch(zsInfobarEntityDTOS.size());
         //线程池
-        ExecutorService executorService = null;
         SXSSFWorkbook workbook = null;
         try {
-            executorService = Executors.newFixedThreadPool(zsInfobarEntityDTOS.size());
             workbook = new SXSSFWorkbook();
             for (int i = 0; i < zsInfobarEntityDTOS.size(); i++) {
                 //新建sheet
@@ -197,13 +192,11 @@ public class ZsOverviewSearchServiceImpl implements ZsOverviewSearchService {
                 //设置高亮
                 searchConditionBO.setHl(isHl);
                 //提交任务，查询
-                executorService.submit(new WriteExcelInfobarDate(searchEngineService,sheet,countDownLatch,searchConditionBO,workbook));
+                WriteExcelInfobarDate.executorService.submit(new WriteExcelInfobarDate(searchEngineService,sheet,countDownLatch,searchConditionBO,workbook));
             }
             countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }finally {
-            executorService.shutdown();
         }
         return workbook;
     }
@@ -282,8 +275,8 @@ public class ZsOverviewSearchServiceImpl implements ZsOverviewSearchService {
                 //放置对应的业务主键
                 Object o = data.get(i).get(zsOverviewParam.getAttename());
                 if (o != null){
-                    o = String.valueOf(o).replaceAll("<font style='color:red !important'>","");
-                    o = String.valueOf(o).replaceAll("</font>","");
+                    o = String.valueOf(o).replaceAll(EsConfigureUtil.HIGHLIGHT_PRETAGS,"");
+                    o = String.valueOf(o).replaceAll(EsConfigureUtil.HIGHLIGHT_POSTTAGS,"");
                 }
                 onceReturnData.put("object_id",o);
             }

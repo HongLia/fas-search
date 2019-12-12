@@ -1,7 +1,9 @@
 package com.fas.search.search.common.pool.es;
 
 import com.fas.base.model.FasConstants;
+import com.fas.search.util.common.MatchStringUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +18,9 @@ import java.net.InetAddress;
 
 @Configuration
 public class EsConfigureUtil {
+
+    private final static Logger logger = Logger.getLogger(EsConfigureUtil.class);
+
     //ES集群名称
     public static String ES_CLUSTER_NAME ;
     //ES ip和集群集合
@@ -30,6 +35,12 @@ public class EsConfigureUtil {
     public static Integer DEFAULT_NUMBER_OF_SHARDS = 5;
     //默认副本数number_of_replicas
     public static Integer DEFAULT_NUMBER_OF_REPLICAS = 1;
+    //智能搜索搜索结果最小匹配百分比
+    public static String MINIMUM_SHOULD_MATCH = null;
+    //智能搜索高亮查询前缀样式
+    public static String HIGHLIGHT_PRETAGS = "<font style='color:red !important'>";
+    //智能搜索高亮查询后缀样式
+    public static String HIGHLIGHT_POSTTAGS = "</font>";
     static{
 
         try {
@@ -43,6 +54,26 @@ public class EsConfigureUtil {
             //判断副本
             if (!StringUtils.isEmpty(FasConstants.PROPERTIES.PROMAP.get("search.es.numberOfReplicas"))){
                 DEFAULT_NUMBER_OF_REPLICAS = Integer.parseInt(FasConstants.PROPERTIES.PROMAP.get("search.es.numberOfReplicas"));
+            }
+            //检测最小匹配百分比
+            if (!StringUtils.isEmpty(FasConstants.PROPERTIES.PROMAP.get("search.es.minimumShouldMatch"))){
+                //获取后台配置
+                String temp = String.valueOf(FasConstants.PROPERTIES.PROMAP.get("search.es.minimumShouldMatch"));
+                if (StringUtils.isNotEmpty(temp)){
+                    //查看填写是否有误
+                    if (MatchStringUtil.isPercent(temp)) {
+                        MINIMUM_SHOULD_MATCH = temp;
+                    }else{
+                        logger.error("search.es.minimumShouldMatch 配置有误: "+ temp);
+                    }
+                }
+            }
+            //只有高亮的前缀后缀都不为空的时候才进行复制
+            if (StringUtils.isNotEmpty(FasConstants.PROPERTIES.PROMAP.get("search.es.highlight.preTags")) && StringUtils.isNotEmpty(FasConstants.PROPERTIES.PROMAP.get("search.es.highlight.postTags"))){
+                //设置前缀
+                HIGHLIGHT_PRETAGS = FasConstants.PROPERTIES.PROMAP.get("search.es.highlight.preTags");
+                //设置后缀
+                HIGHLIGHT_POSTTAGS = FasConstants.PROPERTIES.PROMAP.get("search.es.highlight.postTags");
             }
 
             if (StringUtils.isNotEmpty(ES_HOST_CLOUD)){

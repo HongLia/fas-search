@@ -42,7 +42,7 @@ public class ZsUserRecordController {
 
     /**
      * 用户搜索使用记录展示
-     * @param username
+     * @param record 搜索条件
      * @param page
      * @return
      */
@@ -57,8 +57,8 @@ public class ZsUserRecordController {
 
     /**
      * 用户列表数据查询接口
-     * @param username
-     * @param page
+     * @param username 用户名
+     * @param page 分页信息
      * @return
      */
     @RequestMapping(value = "user",method = RequestMethod.GET)

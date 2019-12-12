@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @auther wuzy
@@ -29,6 +31,8 @@ import java.util.concurrent.CountDownLatch;
  * @date 2019/11/14
  */
 public class WriteExcelDate implements Runnable {
+
+    public static ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2 * 2);
 
     private ZsSubjectDicsMapper zsSubjectDicsMapper;
 

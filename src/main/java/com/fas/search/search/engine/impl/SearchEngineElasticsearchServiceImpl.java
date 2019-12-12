@@ -359,14 +359,15 @@ public class SearchEngineElasticsearchServiceImpl implements SearchEngineService
                         boolQueryBuilder.should(QueryBuilders.matchQuery(name, keys[i]));
                     }
                     queryBuilder = boolQueryBuilder;
-                }else
-                    queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), new String[]{name});
+                }else {
+                    queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), new String[]{name}).minimumShouldMatch(EsConfigureUtil.MINIMUM_SHOULD_MATCH);
+                }
             }else{//一个关键字，查询指定字段
-                queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), convertField(searchConditionBO.getSearchClass().name(),getAllSearchField(searchConditionBOs)));
+                queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), convertField(searchConditionBO.getSearchClass().name(),getAllSearchField(searchConditionBOs))).minimumShouldMatch(EsConfigureUtil.MINIMUM_SHOULD_MATCH);
             }
+
             //设置必须满足条件  //设置过滤查询
             //BoolQueryBuilder boolQueryBuilder = parseFilter(searchFilterBO);
-
             //指定查询index 和 分页信息
             SearchRequestBuilder searchRequestBuilder = client.prepareSearch(collectionNames)
                     .setFetchSource(convertReturnField(searchConditionBO.getSearchClass().name(),getAllReturnField(searchConditionBOs)),null) //设置返回的字段      支持通配符返回
@@ -469,9 +470,9 @@ public class SearchEngineElasticsearchServiceImpl implements SearchEngineService
                     }
                     queryBuilder = boolQueryBuilder;
                 }else
-                    queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), new String[]{name});
+                    queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), new String[]{name}).minimumShouldMatch(EsConfigureUtil.MINIMUM_SHOULD_MATCH);
             }else{//一个关键字，查询指定字段
-                queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), convertField(searchConditionBO.getSearchClass().name(),searchConditionBO.getSearchField()));
+                queryBuilder = QueryBuilders.multiMatchQuery(searchConditionBO.getKey(), convertField(searchConditionBO.getSearchClass().name(),searchConditionBO.getSearchField())).minimumShouldMatch(EsConfigureUtil.MINIMUM_SHOULD_MATCH);
             }
             //设置必须满足条件  //设置过滤查询
             BoolQueryBuilder boolQueryBuilder = null;
@@ -723,8 +724,8 @@ public class SearchEngineElasticsearchServiceImpl implements SearchEngineService
     protected void startHl(SearchRequestBuilder searchRequestBuilder,SearchConditionBO searchConditionBO){
         HighlightBuilder hlb = new HighlightBuilder();
         //高亮样式
-        hlb.preTags("<font style='color:red !important'>");
-        hlb.postTags("</font>");
+        hlb.preTags(EsConfigureUtil.HIGHLIGHT_PRETAGS);
+        hlb.postTags(EsConfigureUtil.HIGHLIGHT_POSTTAGS);
         hlb.field(searchConditionBO.getSearchClass().name()+"_*");
         searchRequestBuilder.highlighter(hlb);
     }

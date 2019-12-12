@@ -20,6 +20,8 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @auther wuzy
@@ -27,6 +29,9 @@ import java.util.concurrent.CountDownLatch;
  * @date 2019/11/14
  */
 public class WriteExcelInfobarDate implements Runnable {
+
+    public static ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2 * 2);
+
 
     //搜索引擎实现类
     private SearchEngineService searchEngineService;
