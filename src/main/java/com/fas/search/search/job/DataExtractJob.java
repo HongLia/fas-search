@@ -49,9 +49,6 @@ public class DataExtractJob implements JobRunner {
 
     @Override
     public Result run(JobContext jobContext) throws Throwable {
-        if (true){
-            return null;
-        }
         String param = jobContext.getJob().getParam("taskId");
         //通过任务id获取任务，
         ZsEtlTask task = zsEtlTaskMapper.selectByPrimaryKey(param);

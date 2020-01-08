@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+        >
+
+
+    <!-- 方式1 添加用户参数:	{"name":"JobRunnerT"}  key为自定义参数，value为类名，实现taskTracker执行多种任务-->
+    <!-- 注解方式 -->
+    <context:component-scan base-package="com.fas.search.search.job"/>
+
+    <bean id="taskTracker" class="com.github.ltsopensource.spring.TaskTrackerAnnotationFactoryBean" init-method="start">
+        <!-- 使用JobRunnerItem注解一定要使用 JobDispatcher -->
+        <property name="jobRunnerClass" value="com.fas.search.search.job.JobDispatcherTask"/>
+        <!-- 如果指定为taskId, 取job.getTaskId() , 否则从 job.getParam("shardField") -->
+        <!--<property name="shardField" value="taskId"/>-->
+        <property name="bizLoggerLevel" value="INFO"/>
+        <property name="nodeGroup" value="fas-search"/>
+        <property name="registryAddress" value="${lts.zookeeper}"/>
+        <property name="clusterName" value="${lts.clusterName}"/>
+        <property name="workThreads" value="64"/>
+        <property name="configs">
+            <props>
+                <prop key="job.fail.store">mapdb</prop>
+            </props>
+        </property>
+    </bean>
+
+
+
+</beans>

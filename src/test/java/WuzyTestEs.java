@@ -64,22 +64,11 @@ public class WuzyTestEs {
     public void queryData () {
 
         QueryBuilder queryBuilder = null;
-       /* queryBuilder = QueryBuilders.matchQuery("all_STR.keyword","张三");*/
-      /*  queryBuilder = QueryBuilders.multiMatchQuery("企业", new String[]{"STR_khyhmc"
-                ,"STR_zgbmmc"
-                ,"STR_dbrxm"
-                ,"STR_dbrzjhm"
-                ,"STR_khmc"
-                ,"STR_zzhm"
-                ,"STR_nl"
-                ,"STR_hjdzxzqh"
-                ,"STR_zzlx"
-                ,"STR_xb"
-                , "STR_ryid"
-                , "STR_hyzk"});*/
+
         //设置必须满足条件  //设置过滤查询
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.should(QueryBuilders.matchQuery("IK_khmc","企业1"));
+
+        boolQueryBuilder.should(QueryBuilders.matchQuery("all_STR.keyword","田发虎").minimumShouldMatch("100%"));
         //指定查询index 和 分页信息
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch(collectionName)
                 .setTypes(collectionName)
@@ -93,7 +82,7 @@ public class WuzyTestEs {
                         ,"STR_crrq"},null)
                 .setFrom(0)
                 //.setPostFilter(boolQueryBuilder)
-                .setSize(10);
+                .setSize(100);
 
         //查询
         SearchResponse searchResponse = searchRequestBuilder.get();
