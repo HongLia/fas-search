@@ -6,15 +6,11 @@ import com.fas.search.manage.entity.ZsEntity;
 import com.fas.search.manage.mapper.ZsEntityFieldMapper;
 import com.fas.search.manage.mapper.ZsEntityMapper;
 import com.fas.search.manage.service.ZsEntityService;
-import com.fas.search.search.bo.EngineInfoBO;
-import com.fas.search.search.common.pool.es.EsConfigureUtil;
 import com.fas.search.search.engine.SearchEngineService;
-import com.fas.search.search.engine.impl.SearchEngineElasticsearchServiceImpl;
 import com.fas.search.search.exception.CreateCollectionException;
 import com.fas.search.util.common.BeanEntityTransformUtil;
 import com.fas.search.util.common.CreateDataUtil;
 import com.fas.search.util.user.UserVOUtil;
-import org.elasticsearch.client.transport.TransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,15 +53,15 @@ public class ZsEntityServiceImpl implements ZsEntityService {
         //初始化创建人信息
         BeanEntityTransformUtil.initCreateEntity(record);
         //设置集合名称
-        if (StringUtils.isEmpty(record.getCollection_name())){
-            record.setCollection_name(record.getTablename() + "_"+ record.getId());
+        if (StringUtils.isEmpty(record.getCollection_name())) {
+            record.setCollection_name(record.getTablename() + "_" + record.getId());
         }
         int i = zsEntityMapper.insertSelective(record);
         //同步实体字段
         initEntityField(record);
         //创建 搜索引擎 collection
         int collectoin = searchEngineService.createCollectoin(record.getCollection_name());
-        if (collectoin > 0){
+        if (collectoin > 0) {
             throw new CreateCollectionException("创建Collection异常！");
         }
         return i;
@@ -91,10 +87,10 @@ public class ZsEntityServiceImpl implements ZsEntityService {
     public int initEntityField(ZsEntity entity) {
         String colums = metaDataInterfaceService.getColumn(entity.getMetadata_id());
         Map map = JSON.parseObject(colums, Map.class);
-        if ("200".equals(map.get("code"))){
+        if ("200".equals(map.get("code"))) {
             //解析数据
             List<Map> data = (List<Map>) map.get("data");
-            if (CollectionUtils.isEmpty(data)){
+            if (CollectionUtils.isEmpty(data)) {
                 return 0;
             }
             for (int i = 0; i < data.size(); i++) {
@@ -108,7 +104,7 @@ public class ZsEntityServiceImpl implements ZsEntityService {
                 col.put("field_type", col.get("datatype"));
                 zsEntityFieldMapper.insertSelectiveByMap(col);
             }
-           //return zsEntityFieldMapper.insertBatch(data);
+            //return zsEntityFieldMapper.insertBatch(data);
         }
 
         return 0;
